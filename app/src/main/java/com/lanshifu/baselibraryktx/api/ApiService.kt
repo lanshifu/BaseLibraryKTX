@@ -1,7 +1,7 @@
-package com.lanshifu.baselibraryktx.mvvm.api
+package com.lanshifu.baselibraryktx.api
 
 import com.lanshifu.lib.annotation.BaseUrl
-import com.lanshifu.baselibraryktx.mvvm.bean.BaseResponse
+import com.lanshifu.baselibraryktx.bean.BaseResponse
 import luyao.util.ktx.bean.LoginResp
 
 import retrofit2.http.POST

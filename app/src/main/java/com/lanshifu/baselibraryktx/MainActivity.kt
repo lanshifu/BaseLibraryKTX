@@ -16,11 +16,13 @@ class MainActivity : AppCompatActivity() {
 
         LifecycleCoroutineScope(this)
             .launch {
+                var i = 0
                 withContext(Dispatchers.Default){
                     Thread.sleep(3000)
+                    i = 3
                 }
 
-                toast("协程代码块执行完成")
+                toast("协程代码块执行完成,i=$i")
             }
     }
 }

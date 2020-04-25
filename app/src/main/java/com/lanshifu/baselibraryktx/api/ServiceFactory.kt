@@ -1,4 +1,4 @@
-package com.lanshifu.baselibraryktx.mvvm.api
+package com.lanshifu.baselibraryktx.api
 
 import com.lanshifu.lib.network.RetrofitFactory
 

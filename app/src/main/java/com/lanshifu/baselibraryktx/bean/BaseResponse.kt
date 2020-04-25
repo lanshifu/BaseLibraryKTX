@@ -1,4 +1,4 @@
-package com.lanshifu.baselibraryktx.mvvm.bean
+package com.lanshifu.baselibraryktx.bean
 
 import com.lanshifu.lib.network.IBaseResponse
 

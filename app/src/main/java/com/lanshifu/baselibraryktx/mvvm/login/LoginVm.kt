@@ -4,7 +4,7 @@ import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import com.lanshifu.lib.base.BaseViewModel
 import com.lanshifu.lib.ext.toast
-import com.lanshifu.baselibraryktx.mvvm.api.WanandroidFactory
+import com.lanshifu.baselibraryktx.api.WanandroidFactory
 import luyao.util.ktx.bean.LoginResp
 
 class LoginVm : BaseViewModel<WanandroidFactory>(){

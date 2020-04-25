@@ -1,4 +1,4 @@
-package com.lanshifu.baselibraryktx.mvvm.api
+package com.lanshifu.baselibraryktx.api
 
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterceptor
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor
