@@ -1,0 +1,2 @@
+include ':app',":base_lib"
+rootProject.name='BaseLibraryKTX'
