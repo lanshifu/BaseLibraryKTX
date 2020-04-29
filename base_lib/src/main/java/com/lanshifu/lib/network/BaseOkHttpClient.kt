@@ -6,22 +6,22 @@ import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
 
-object BaseOkHttpClient {
+open class BaseOkHttpClient {
 
 
     // 读超时
-    const val READ_TIME_OUT = 20L
+    val READ_TIME_OUT = 20L
     // 写超时
-    const val WRITE_TIME_OUT = 30L
+    val WRITE_TIME_OUT = 30L
     // 连接超时
-    const val CONNECT_TIME_OUT = 5L
+    val CONNECT_TIME_OUT = 5L
 
     // 初始化 okHttp
-    fun create(vararg interceptors: Interceptor): OkHttpClient {
+    fun create(interceptors: Array<Interceptor>? = null): OkHttpClient {
 
         val builder = OkHttpClient.Builder()
 
-        interceptors.forEach {
+        interceptors?.forEach {
             builder.addInterceptor(it)
         }
 

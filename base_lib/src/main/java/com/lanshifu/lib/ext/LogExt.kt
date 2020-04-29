@@ -7,7 +7,7 @@ import com.lanshifu.lib.ext.sharedpreferences.getSpValue
 import java.lang.StringBuilder
 
 
-const val TAG = "lzgamecenter"
+const val TAG = "lxb"
 
 var showLog = getDebugStatus()
 

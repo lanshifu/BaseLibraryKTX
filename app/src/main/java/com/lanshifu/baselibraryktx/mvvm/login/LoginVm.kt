@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import com.lanshifu.lib.base.BaseViewModel
 import com.lanshifu.lib.ext.toast
 import com.lanshifu.baselibraryktx.api.WanandroidFactory
+import com.lanshifu.baselibraryktx.bean.BaseResponse
 import luyao.util.ktx.bean.LoginResp
+import rxhttp.toClass
+import rxhttp.wrapper.param.RxHttp
 
 class LoginVm : BaseViewModel<WanandroidFactory>(){
 
@@ -31,8 +34,8 @@ class LoginVm : BaseViewModel<WanandroidFactory>(){
                 mResp.value = it
             }
 
-
         }
 
     }
+
 }

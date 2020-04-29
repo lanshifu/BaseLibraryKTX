@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,9 +38,10 @@
             android:text="按钮1"/>
 
         <Button
+            android:id="@+id/mBtnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="按钮1"/>
+            android:text="登录"/>
 
         <Button
             android:layout_width="wrap_content"

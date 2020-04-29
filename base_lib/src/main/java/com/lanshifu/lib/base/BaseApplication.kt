@@ -4,9 +4,13 @@ import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
 import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.lanshifu.lib.ext.getCurrentProcessName
 import com.lanshifu.lib.ext.logd
+import com.lanshifu.lib.network.BaseOkHttpClient
 import com.tencent.mmkv.MMKV
+import okhttp3.Interceptor
+import rxhttp.wrapper.param.RxHttp
 
 /**
  * @author lanxiaobin
@@ -23,9 +27,19 @@ open class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        DoraemonKit.install(this)
+        initDoKit(pid = "2b82c70fb9f53c79a3e145f6ca52177f")
 
         initMMKV()
+
+        initNetwork()
+    }
+
+    open fun initDoKit(list: List<AbstractKit>? = null, pid: String) {
+        DoraemonKit.install(this, list, pid)
+    }
+
+    open fun initNetwork(interceptors: Array<Interceptor>? = null) {
+        RxHttp.init(BaseOkHttpClient().create(interceptors))
     }
 
     private fun initMMKV() {
