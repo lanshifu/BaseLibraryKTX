@@ -10,18 +10,44 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 
 
+/**
+ * Fragment懒加载
+ */
 abstract class BaseFragment : androidx.fragment.app.Fragment(), CoroutineScope by MainScope() {
 
     private var progressDialog: ProgressDialog? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayoutResId(), container, false)
+    protected var mRootView: View? = null
+
+    private var mIsHasData = false//是否加载过数据
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        if (mRootView == null) {
+            mRootView = inflater.inflate(getLayoutResId(), container, false)
+        }
+        return mRootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initView()
-        initData()
         super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lazyLoadData()
+    }
+
+    private fun lazyLoadData() {
+        if (!mIsHasData) {
+            mIsHasData = true
+            initData()
+        }
     }
 
     abstract fun getLayoutResId(): Int
@@ -34,7 +60,6 @@ abstract class BaseFragment : androidx.fragment.app.Fragment(), CoroutineScope b
         super.onDestroy()
         cancel()
     }
-
 
 
     fun showProgressDialog(title: String? = null, message: String = "加载中") {
