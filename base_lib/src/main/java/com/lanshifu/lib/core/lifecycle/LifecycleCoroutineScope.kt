@@ -1,5 +1,6 @@
 package com.lanshifu.lib.core.lifecycle
 
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.*
 
@@ -13,7 +14,7 @@ import kotlinx.coroutines.*
  *
  * @param lifecycleOwner AppcompatActivity、Fragment 都实现了 LifecycleOwner
  */
-class LifecycleCoroutineScope(lifecycleOwner: LifecycleOwner) : BaseLifecycleObserver(lifecycleOwner) {
+class LifecycleCoroutineScope(lifecycle: Lifecycle) : BaseLifecycleObserver(lifecycle) {
 
 
     private val coroutineScope: CoroutineScope =

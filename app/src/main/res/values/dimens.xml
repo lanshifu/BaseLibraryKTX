@@ -9,4 +9,7 @@
     <dimen name="len_10">10dp</dimen>
     <dimen name="len_16">16dp</dimen>
     <dimen name="len_4">4dp</dimen>
+
+    <dimen name="dp_4">4px</dimen>
+
 </resources>

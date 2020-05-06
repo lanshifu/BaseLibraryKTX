@@ -13,11 +13,13 @@ import androidx.lifecycle.OnLifecycleEvent
  *
  * @param lifecycleOwner AppcompatActivity、Fragment都实现 LifecycleOwner
  */
-open class BaseLifecycleObserver(val lifecycleOwner: LifecycleOwner) : LifecycleObserver,
+open class BaseLifecycleObserver(val lifecycle: Lifecycle?) : LifecycleObserver,
     ILifecycleEvent {
 
+    constructor(lifecycleOwner: LifecycleOwner?) : this(lifecycleOwner?.lifecycle)
+
     init {
-        lifecycleOwner.lifecycle.addObserver(this)
+        lifecycle?.addObserver(this)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
@@ -42,7 +44,7 @@ open class BaseLifecycleObserver(val lifecycleOwner: LifecycleOwner) : Lifecycle
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun _onDestroy() {
-        lifecycleOwner.lifecycle.removeObserver(this)
+        lifecycle?.removeObserver(this)
         onDestroy()
     }
 

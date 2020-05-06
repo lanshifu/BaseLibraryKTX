@@ -3,7 +3,7 @@ package com.lanshifu.baselibraryktx
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.lanshifu.lib.core.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.lanshifu.lib.ext.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -25,8 +25,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        LifecycleCoroutineScope(this)
-            .launch {
+        lifecycleScope.launch {
                 var i = 0
                 withContext(Dispatchers.Default) {
                     Thread.sleep(3000)
@@ -35,6 +34,19 @@ class MainActivity : AppCompatActivity() {
 
                 toast("协程代码块执行完成,i=$i")
             }
+
+
+
+        lifecycleScope.launch {
+            var i = 0
+            withContext(Dispatchers.Default) {
+                Thread.sleep(4000)
+                i = 3
+            }
+
+            toast("协程代码块执行完成2,i=$i")
+        }
+
 
         testFragmentStatus()
     }
