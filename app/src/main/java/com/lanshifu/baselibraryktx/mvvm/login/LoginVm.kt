@@ -2,16 +2,13 @@ package com.lanshifu.baselibraryktx.mvvm.login
 
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
-import com.lanshifu.lib.base.BaseViewModel
-import com.lanshifu.lib.ext.toast
 import com.lanshifu.baselibraryktx.api.WanandroidFactory
+import com.lanshifu.lib.base.BaseViewModel
 import com.lanshifu.lib.ext.logd
-import com.lanshifu.baselibraryktx.bean.BaseResponse
+import com.lanshifu.lib.ext.toast
 import luyao.util.ktx.bean.LoginResp
-import rxhttp.toClass
-import rxhttp.wrapper.param.RxHttp
 
-class LoginVm : BaseViewModel<WanandroidFactory>(){
+class LoginVm : BaseViewModel<WanandroidFactory>() {
 
     var mResp: MutableLiveData<LoginResp> = MutableLiveData()
 
@@ -22,7 +19,7 @@ class LoginVm : BaseViewModel<WanandroidFactory>(){
         logd("我是包子")
     }
 
-    fun login(account: String, password: String){
+    fun login(account: String, password: String) {
 
         if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
             toast("账号密码不能为空")
@@ -35,7 +32,7 @@ class LoginVm : BaseViewModel<WanandroidFactory>(){
 
             }
             request {
-                mRepository.login(account,password)
+                mRepository.login(account, password)
             }
 
             onSuccess {

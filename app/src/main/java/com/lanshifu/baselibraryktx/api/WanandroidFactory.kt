@@ -8,9 +8,8 @@ import rxhttp.wrapper.param.RxHttp
 class WanandroidFactory {
     suspend fun login(account: String, password: String): BaseResponse<LoginResp> {
 
-//        return ServiceFactory.apiService.login(account, password)
-
         return RxHttp.postForm(API.LOGIN)
+            .setUrl("")
             .add("username", account)
             .add("password", password)
             .toClass<BaseResponse<LoginResp>>().await()

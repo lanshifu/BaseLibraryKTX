@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.lanshifu.lib.core.util.Clazz
 import com.lanshifu.lib.ext.logd
 
 
 abstract class BaseVMFragment<VM : BaseViewModel<*>> : BaseFragment() {
 
-    val mViewModel: VM by lazy { Clazz.getClass<VM>(this).newInstance() }
+    val mViewModel: VM by lazy { ViewModelProvider(this).get(Clazz.getClass<VM>(this)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
