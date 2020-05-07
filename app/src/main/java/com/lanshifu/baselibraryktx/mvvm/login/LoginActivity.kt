@@ -21,6 +21,7 @@ class LoginActivity : BaseVMActivity<LoginVm>() {
 
     override fun initView() {
         mBtnLogin.setOnClickListener {
+            showProgressDialog()
             mViewModel.login(mTieAccount.text.toString(), mTiePassword.text.toString())
         }
     }
@@ -49,6 +50,7 @@ class LoginActivity : BaseVMActivity<LoginVm>() {
         super.startObserve()
         mViewModel.run {
             mResp.observe(this@LoginActivity, Observer {
+                hideProgressDialog()
                 it?.run {
                     logd(it.toString())
                     toast(it.toString()

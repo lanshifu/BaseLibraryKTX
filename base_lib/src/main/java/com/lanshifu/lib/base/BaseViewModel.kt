@@ -24,33 +24,10 @@ open class BaseViewModel<T> : ViewModel(), LifecycleObserver {
     val mException: MutableLiveData<Throwable> = MutableLiveData()
 
 
-    private fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
+    protected fun launch(block: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch { block() }
     }
 
-    suspend fun <T> launchOnIO(block: suspend CoroutineScope.() -> T) {
-        withContext(Dispatchers.IO) {
-            block
-        }
-    }
-
-    fun launch(tryBlock: suspend CoroutineScope.() -> Unit) {
-        launchOnUI {
-            tryCatch(tryBlock, {}, {}, true)
-        }
-    }
-
-
-    fun launchOnUITryCatch(
-        tryBlock: suspend CoroutineScope.() -> Unit,
-        catchBlock: suspend CoroutineScope.(Throwable) -> Unit,
-        finallyBlock: suspend CoroutineScope.() -> Unit,
-        handleCancellationExceptionManually: Boolean = true
-    ) {
-        launchOnUI {
-            tryCatch(tryBlock, catchBlock, finallyBlock, handleCancellationExceptionManually)
-        }
-    }
 
     private suspend fun tryCatch(
         tryBlock: suspend CoroutineScope.() -> Unit,

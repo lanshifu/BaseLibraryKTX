@@ -16,16 +16,12 @@ abstract class BaseVMActivity<VM : BaseViewModel<*>> : BaseActivity() {
     }
 
     open fun startObserve() {
-        lifecycle.addObserver(mViewModel)
         mViewModel.mException.observe(this, Observer { it?.let { onError(it) } })
     }
 
     open fun onError(e: Throwable) {}
 
     override fun onDestroy() {
-        mViewModel.let {
-            lifecycle.removeObserver(it)
-        }
         super.onDestroy()
     }
 }

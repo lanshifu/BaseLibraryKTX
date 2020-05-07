@@ -25,6 +25,7 @@
                 android:id="@+id/mTieAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="lanshifu"
                 android:hint="@string/account" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -41,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
+                android:text="123456"
                 android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
