@@ -26,13 +26,6 @@ fun <T> Any.putMmkvValue(key: String, value: T) = cache.run {
 }
 
 
-/**
- * Retrieve a [T] value from the preferences
- *
- * @param key The name of the preference to retrieve.
- * @param default Value to return if this preference does not exist.
- * @param name Desired preferences file. Default value is the packageName
- */
 fun <T> Any.getMmkvValue(key: String, default: T): T = cache.run {
     val result = when (default) {
         is Long -> getLong(key, default)

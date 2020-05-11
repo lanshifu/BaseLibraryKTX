@@ -4,8 +4,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.lanshifu.baselibraryktx.R
 import com.lanshifu.lib.base.BaseVMActivity
+import com.lanshifu.lib.base.mmkv.getMmkvValue
+import com.lanshifu.lib.base.mmkv.putMmkvValue
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
+import com.lanshifu.lib.ext.sharedpreferences.putSpValue
 import com.lanshifu.lib.ext.toast
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +27,13 @@ class LoginActivity : BaseVMActivity<LoginVm>() {
             showProgressDialog()
             mViewModel.login(mTieAccount.text.toString(), mTiePassword.text.toString())
         }
+
+        if (!getMmkvValue("isLogin",false)){
+            putMmkvValue("isLogin",true)
+        }
+
+
+        getMmkvValue("isLogin",false)
     }
 
     override fun initData() {
@@ -54,6 +64,7 @@ class LoginActivity : BaseVMActivity<LoginVm>() {
                 it?.run {
                     logd(it.toString())
                     toast(it.toString()
+
                     )
                 }
             })
