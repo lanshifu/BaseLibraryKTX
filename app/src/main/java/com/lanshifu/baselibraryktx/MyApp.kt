@@ -1,17 +1,18 @@
 package com.lanshifu.baselibraryktx
 
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.lanshifu.baselibraryktx.dokit.EnvSwitchKit
 import com.lanshifu.lib.base.BaseApplication
 import com.lanshifu.lib.ext.logd
+import io.alterac.blurkit.BlurKit
 import okhttp3.Interceptor
-import com.lanshifu.baselibraryktx.dokit.EnvSwitchKit
-
 
 
 class MyApp : BaseApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        BlurKit.init(this)
     }
 
 

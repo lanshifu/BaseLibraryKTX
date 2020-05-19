@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shape_gradient_main_card_6e45e2_88d3ce"
     tools:context=".MainActivity">
 
 
@@ -44,12 +45,36 @@
             android:text="登录"/>
 
         <Button
+            android:id="@+id/btnBlurLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="按钮1"/>
+            android:text="高斯模糊"/>
 
 
 
     </com.google.android.flexbox.FlexboxLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <ImageView
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <io.alterac.blurkit.BlurLayout
+        android:visibility="gone"
+        android:id="@+id/blurLayout"
+        app:blk_fps="0"
+        app:blk_blurRadius="5"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

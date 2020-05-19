@@ -49,16 +49,19 @@ dokitExt {
     packageNames = ["com.lanshifu.baselibraryktx"]
     //慢函数 黑名单 可以是包名 也可以是全路径的类名
     methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
+
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
     implementation 'com.google.android.material:material:1.1.0-alpha09'
-
     implementation project(path: ':base_lib')
+    implementation files('libs/PackerNg-1.1.0.jar')
+
+    //BlurLayout 高斯模糊
+    implementation 'io.alterac.blurkit:blurkit:1.1.1'
+
 }
