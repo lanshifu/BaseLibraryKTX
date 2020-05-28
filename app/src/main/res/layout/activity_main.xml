@@ -49,6 +49,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="高斯模糊"/>
+        <Button
+            android:id="@+id/btnGift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="礼物"/>
 
 
 

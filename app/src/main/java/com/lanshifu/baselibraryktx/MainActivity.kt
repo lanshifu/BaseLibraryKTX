@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.lanshifu.baselibraryktx.fragmentstatus.TestFragment
+import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
 import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
 import com.lanshifu.lib.ext.logd
 import com.lanshifu.lib.ext.reverseVisibility
@@ -28,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         btnBlurLayout.setOnClickListener {
             blurLayout.alpha = 1f
             blurLayout.reverseVisibility()
+        }
+        btnGift.setOnClickListener {
+            startActivity(Intent(this,GiftSurfaceViewActivity::class.java))
         }
 
 
