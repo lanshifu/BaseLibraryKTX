@@ -1,5 +1,10 @@
 package com.lanshifu.baselibraryktx.gift.animationsurfaceview
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+
 /**
  * @author zhenghao.qi
  * @version 1.0
@@ -17,8 +22,7 @@ class ScanAnimaitonStrategy(
     /**
      * 循环时间
      */
-    private val cyclePeriod: Long
-) : IAnimationStrategy {
+    private val cyclePeriod: Long) : IAnimationStrategy {
     /**
      * 起始X坐标
      */
@@ -51,6 +55,8 @@ class ScanAnimaitonStrategy(
      */
     private var doing = false
 
+    val paint = Paint()
+
     override fun start() {
         startTime = System.currentTimeMillis()
         doing = true
@@ -64,14 +70,16 @@ class ScanAnimaitonStrategy(
         animationSurfaceView.getLocationInWindow(position)
         startX = position[0]
         startY = position[1]
+
+        paint.isAntiAlias = true
+        paint.color = Color.CYAN
     }
 
     /**
      * 根据当前时间计算小球的X/Y坐标。
      */
     override fun compute() {
-        val intervalTime =
-            (System.currentTimeMillis() - startTime) % cyclePeriod
+        val intervalTime = (System.currentTimeMillis() - startTime) % cyclePeriod
         val angle = Math.toRadians(360 * 1.0 * intervalTime / cyclePeriod)
         var y = (shift / 2 * Math.cos(angle)).toInt()
         y = Math.abs(y - shift / 2)
@@ -85,6 +93,17 @@ class ScanAnimaitonStrategy(
 
     override fun cancel() {
         doing = false
+    }
+
+
+    var icon: Bitmap? = null
+    override fun draw(canvas: Canvas) {
+        compute()
+        // 绘上新图区域
+//        canvas.drawRect(x, y, x + icon!!.width, y + icon!!.height, tempPaint)
+
+        canvas.drawBitmap(icon!!, x.toFloat(), y.toFloat(), paint)
+
     }
 
     init {

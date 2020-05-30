@@ -66,11 +66,24 @@
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <ImageView
-        android:src="@mipmap/ic_launcher"
+        android:id="@+id/ivLauncher"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:src="@mipmap/ic_launcher"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.lanshifu.baselibraryktx.anim.HomeLikeAnimView
+        android:id="@+id/likeAnim"
+        android:layout_width="300dp"
+        android:gravity="bottom|center"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toLeftOf="@id/ivLauncher"
+        app:layout_constraintRight_toRightOf="@id/ivLauncher"
+        app:layout_constraintBottom_toTopOf="@id/ivLauncher"/>
+
 
     <io.alterac.blurkit.BlurLayout
         android:visibility="gone"

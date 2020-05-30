@@ -34,6 +34,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this,GiftSurfaceViewActivity::class.java))
         }
 
+        ivLauncher.setOnClickListener {
+            likeAnim.addLikeView()
+        }
+
 
         lifecycleScope.launch {
                 var i = 0

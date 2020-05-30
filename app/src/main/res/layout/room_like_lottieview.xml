@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:layout_width="80dp"
+    android:layout_height="80dp">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieLikeView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        app:lottie_rawRes="@raw/room_like_bomb">
+    </com.airbnb.lottie.LottieAnimationView>
+
+</FrameLayout>
+
+

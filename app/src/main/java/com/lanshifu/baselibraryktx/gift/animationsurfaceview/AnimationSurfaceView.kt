@@ -21,17 +21,20 @@ class AnimationSurfaceView : SurfaceView, SurfaceHolder.Callback, Runnable {
      *
      * @param bitmap
      */
-    var icon //动画图标
-            : Bitmap? = null
-    private var mIAnimationStrategy //动画执行算法策略
-            : IAnimationStrategy? = null
-    private var mStausChangedListener //动画状态改变监听事件
-            : OnStausChangedListener? = null
+    var icon: Bitmap? = null
+    private var mIAnimationStrategy: IAnimationStrategy? = null
+
+    private var mStausChangedListener: OnStausChangedListener? = null //动画状态改变监听事件
     private var marginLeft = 0
     private var marginTop = 0
     private var isSurfaceDestoryed = true //默认未创建，相当于Destory
-    private var mThread //动画刷新线程
-            : Thread? = null
+    private var mThread: Thread? = null
+
+    private var animationList = mutableListOf<IAnimationStrategy>()
+
+    public fun addAnimation(animation:IAnimationStrategy){
+        animationList.add(animation)
+    }
 
     constructor(
         context: Context?,
@@ -91,21 +94,32 @@ class AnimationSurfaceView : SurfaceView, SurfaceHolder.Callback, Runnable {
         if (mStausChangedListener != null) {
             mStausChangedListener!!.onAnimationStart(this)
         }
-        mIAnimationStrategy!!.start()
-        while (mIAnimationStrategy!!.doing()) {
+        mIAnimationStrategy?.start()
+        while (!isSurfaceDestoryed) {
+
+
             try {
-                mIAnimationStrategy!!.compute()
                 canvas = mSurfaceHolder!!.lockCanvas()
+
                 canvas.drawColor(
                     Color.TRANSPARENT,
                     PorterDuff.Mode.CLEAR
                 ) // 设置画布的背景为透明
 
-                // 绘上新图区域
-                val x = mIAnimationStrategy!!.x.toFloat() + marginLeft
-                val y = mIAnimationStrategy!!.y.toFloat() + marginTop
-                canvas.drawRect(x, y, x + icon!!.width, y + icon!!.height, tempPaint)
-                canvas.drawBitmap(icon!!, x, y, paint)
+//                mIAnimationStrategy?.compute()
+//                // 绘上新图区域
+//                val x = mIAnimationStrategy!!.x.toFloat() + marginLeft
+//                val y = mIAnimationStrategy!!.y.toFloat() + marginTop
+//                canvas.drawRect(x, y, x + icon!!.width, y + icon!!.height, tempPaint)
+//                canvas.drawBitmap(icon!!, x, y, paint)
+
+                animationList.forEach {
+                    if (it.doing()){
+                        it.draw(canvas!!)
+                    }
+                }
+
+
                 mSurfaceHolder!!.unlockCanvasAndPost(canvas)
                 Thread.sleep(REFRESH_INTERVAL_TIME)
             } catch (e: Exception) {

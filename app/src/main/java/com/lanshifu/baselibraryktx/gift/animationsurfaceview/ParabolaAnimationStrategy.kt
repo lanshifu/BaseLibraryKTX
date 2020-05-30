@@ -1,5 +1,9 @@
 package com.lanshifu.baselibraryktx.gift.animationsurfaceview
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.util.Log
 
 /**
@@ -72,6 +76,9 @@ class ParabolaAnimationStrategy(
             Math.sqrt((1 - WASTAGE) * 2 * height * 1.0 / GRAVITY)
         velocity = width * 1.0 / (t1 + 2 * t2)
         Log.d("Bruce1", "t1=$t1 t2=$t2")
+
+        paint.isAntiAlias = true
+        paint.color = Color.CYAN
     }
 
     /**
@@ -113,6 +120,12 @@ class ParabolaAnimationStrategy(
 
     override fun cancel() {
         doing = false
+    }
+
+    val paint = Paint()
+    var icon: Bitmap? = null
+    override fun draw(canvas: Canvas) {
+        canvas.drawBitmap(icon!!, x.toFloat(), y.toFloat(), paint)
     }
 
     companion object {

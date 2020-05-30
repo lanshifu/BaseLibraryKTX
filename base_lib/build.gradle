@@ -77,6 +77,8 @@ dependencies {
     //流布局
     api 'com.google.android:flexbox:2.0.1'
 
+    api "com.airbnb.android:lottie:3.4.0"
+
     //引入新的网络框架
     api "com.ljx.rxhttp:rxhttp:2.2.0"
     kapt 'com.ljx.rxhttp:rxhttp-compiler:2.2.0' //生成RxHttp类

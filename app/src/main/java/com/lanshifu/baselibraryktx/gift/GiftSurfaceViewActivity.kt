@@ -2,13 +2,11 @@ package com.lanshifu.baselibraryktx.gift
 
 import android.graphics.BitmapFactory
 import com.lanshifu.baselibraryktx.R
-import com.lanshifu.baselibraryktx.gift.animationsurfaceview.AnimationSurfaceView
 import com.lanshifu.baselibraryktx.gift.animationsurfaceview.ParabolaAnimationStrategy
 import com.lanshifu.baselibraryktx.gift.animationsurfaceview.ScanAnimaitonStrategy
 import com.lanshifu.lib.base.BaseActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.dp2px
-import com.lanshifu.lib.ext.logd
 import kotlinx.android.synthetic.main.activity_giftsurvaceiew.*
 
 
@@ -34,10 +32,7 @@ class GiftSurfaceViewActivity : BaseActivity() {
     override fun initData() {
 
         handler.postDelayed({
-            drawGift()
-
-//            testAnimView()
-
+//            drawGift()
             initScanAnimation()
         }, 1000)
     }
@@ -56,38 +51,22 @@ class GiftSurfaceViewActivity : BaseActivity() {
         giftSurfaceView.startAnim()
     }
 
-    fun testAnimView() {
-        animSurfaceView.setOnAnimationStausChangedListener(object :
-            AnimationSurfaceView.OnStausChangedListener {
-            override fun onAnimationEnd(view: AnimationSurfaceView?) {
-                logd("onAnimationEnd")
-
-            }
-
-            override fun onAnimationStart(view: AnimationSurfaceView?) {
-                logd("onAnimationStart")
-            }
-        })
-
-        // 设置起始Y轴高度和终止X轴位移
-        // 设置起始Y轴高度和终止X轴位移
-        val iAnimationStrategy = ParabolaAnimationStrategy(animSurfaceView, dp2px(320), dp2px(320))
-        animSurfaceView.setStrategy(iAnimationStrategy)
-        animSurfaceView.icon = BitmapFactory.decodeResource(
-            resources,
-            R.mipmap.ic_launcher
-        )
-        animSurfaceView.startAnimation()
-    }
 
     private fun initScanAnimation() {
-        val iAnimationStrategy = ScanAnimaitonStrategy(animSurfaceView, dp2px(150), 2000)
-        animSurfaceView.setStrategy(iAnimationStrategy)
-//        animSurfaceView.setOnAnimationStausChangedListener(this)
-        animSurfaceView.icon = BitmapFactory.decodeResource(
+        val anim1 = ScanAnimaitonStrategy(animSurfaceView, dp2px(150), 2000)
+        val anim2 = ParabolaAnimationStrategy(animSurfaceView, dp2px(150), 2000)
+        anim1.icon = BitmapFactory.decodeResource(
             resources,
             R.mipmap.ic_launcher
         )
+        anim2.icon = BitmapFactory.decodeResource(
+            resources,
+            R.mipmap.ic_launcher
+        )
+
+        animSurfaceView.addAnimation(anim1)
+//        animSurfaceView.addAnimation(anim2)
+//        animSurfaceView.setOnAnimationStausChangedListener(this)
         animSurfaceView.startAnimation()
     }
 }
