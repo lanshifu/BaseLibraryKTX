@@ -1,12 +1,14 @@
 package com.lanshifu.baselibraryktx
 
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.lanshifu.baselibraryktx.fragmentstatus.TestFragment
 import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
 import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
+import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
 import com.lanshifu.lib.ext.reverseVisibility
 import com.lanshifu.lib.ext.toast
@@ -19,6 +21,7 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     var testFragment: TestFragment? = null
+    val handler = LifecycleHandler(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,6 +41,10 @@ class MainActivity : AppCompatActivity() {
             likeAnim.addLikeView()
         }
 
+
+        val drawable = ivBomb?.drawable as AnimationDrawable
+        drawable.isOneShot = false
+        drawable.start()
 
         lifecycleScope.launch {
                 var i = 0

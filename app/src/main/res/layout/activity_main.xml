@@ -55,7 +55,24 @@
             android:layout_height="wrap_content"
             android:text="礼物"/>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:visibility="gone"
+            android:id="@+id/lottieLikeView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/room_like_bomb">
+        </com.airbnb.lottie.LottieAnimationView>
 
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/ivBomb"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/bomb"
+            android:layout_gravity="center"/>
 
     </com.google.android.flexbox.FlexboxLayout>
 
@@ -72,14 +89,14 @@
         android:src="@mipmap/ic_launcher"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <com.lanshifu.baselibraryktx.anim.HomeLikeAnimView
         android:id="@+id/likeAnim"
         android:layout_width="300dp"
         android:gravity="bottom|center"
         android:layout_height="match_parent"
+        android:layout_marginBottom="150dp"
         app:layout_constraintLeft_toLeftOf="@id/ivLauncher"
         app:layout_constraintRight_toRightOf="@id/ivLauncher"
         app:layout_constraintBottom_toTopOf="@id/ivLauncher"/>
@@ -90,7 +107,7 @@
         android:id="@+id/blurLayout"
         app:blk_fps="0"
         app:blk_blurRadius="5"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>

@@ -13,6 +13,14 @@
         app:lottie_rawRes="@raw/room_like_bomb">
     </com.airbnb.lottie.LottieAnimationView>
 
+    <ImageView
+        android:id="@+id/ivBomb"
+        android:visibility="gone"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/bomb"
+        android:layout_gravity="center"/>
+
 </FrameLayout>
 
 

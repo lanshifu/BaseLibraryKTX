@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
@@ -15,6 +16,8 @@ import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.lanshifu.baselibraryktx.R
 import com.lanshifu.lib.ext.dp2px
+import com.lanshifu.lib.ext.gone
+import com.lanshifu.lib.ext.listener.onAnimatorListener
 import com.lanshifu.lib.ext.logd
 import com.lanshifu.lib.ext.visible
 import java.util.*
@@ -50,8 +53,6 @@ class HomeLikeAnimView @JvmOverloads constructor(
 
     private val mCacheViewHolders = LinkedList<ViewHolder>()
     private val MAX_CACHE_SIZE = 0
-    private var mTranslationY = 0f
-    private var mTranslationX = 0f
 
     private val translationDistance = 350f
 
@@ -112,46 +113,44 @@ class HomeLikeAnimView @JvmOverloads constructor(
 
     private fun startAnimation(viewHolder: ViewHolder) {
         val target = viewHolder.root
-        val secondAnimator = generateSecondAnimation(target)
-        val lastAnimator = generateLastAnimation(target)
+        val firstAnimation = generateFirstAnimation(target)
+        val secondAnimation = secondAnimation(target)
 
-        val finalAnimatorSet = AnimatorSet()
-        finalAnimatorSet.setTarget(target)
-//        finalAnimatorSet.playSequentially(secondAnimator)
-        finalAnimatorSet.playSequentially(secondAnimator, lastAnimator)
-        finalAnimatorSet.addListener(AnimationEndListener(viewHolder))
-
-        lottieAnimationView?.cancelAnimation()
-        lottieAnimationView?.visible()
-        lottieAnimationView?.addAnimatorListener(object :
-            android.animation.Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: android.animation.Animator?) {
-            }
-
-            override fun onAnimationEnd(animation: android.animation.Animator?) {
-                finalAnimatorSet.start()
-//                startUpAnim(imageView)
-                lottieAnimationView?.removeAllAnimatorListeners()
-            }
-
-            override fun onAnimationCancel(animation: android.animation.Animator?) {
-                finalAnimatorSet.start()
-                lottieAnimationView?.removeAllAnimatorListeners()
-            }
-
-            override fun onAnimationStart(animation: android.animation.Animator?) {
-            }
-
+        val animatorSet = AnimatorSet()
+        animatorSet.setTarget(target)
+        animatorSet.playSequentially(firstAnimation, secondAnimation)
+        animatorSet.onAnimatorListener(onAnimationEnd = {
+            recycle(viewHolder)
         })
-        lottieAnimationView?.playAnimation()
 
-        mTranslationY = 0f
-        mTranslationX = 0f
-
+        startAnimation(animatorSet)
     }
 
-    private fun generateSecondAnimation(target: View): Animator {
-        val translateY = ObjectAnimator.ofFloat(target, "translationY", 0f, -translationDistance)
+    private fun startAnimation(animatorSet:AnimatorSet){
+        //帧动画
+        val drawable = ivBomb?.drawable as AnimationDrawable?
+        drawable?.isOneShot = true
+        ivBomb?.visible()
+        if (drawable?.isRunning == true){
+            logd("drawable?.isRunning == true,animatorSet.start()")
+            drawable.stop()
+//            handler.removeCallbacksAndMessages(null)
+//            animatorSet.start()
+
+        }
+        drawable?.start()
+
+        handler.postDelayed({
+            logd("postDelayed animatorSet.start()")
+            drawable?.stop()
+            ivBomb?.gone()
+            animatorSet.start()
+        },500)
+    }
+
+    private fun generateFirstAnimation(target: View): Animator {
+        val translateY = ObjectAnimator.ofFloat(target, "translationY", 0f,
+            -translationDistance)
         translateY.duration = 300
         val enterAnimation = AnimatorSet()
         enterAnimation.playTogether(translateY)
@@ -161,23 +160,24 @@ class HomeLikeAnimView @JvmOverloads constructor(
     }
 
 
-    private fun generateLastAnimation(target: View): Animator {
+    private fun secondAnimation(target: View): Animator {
         //透明
         val alpha = ObjectAnimator.ofFloat(target, "alpha", 1f, 0f)
         val scaleX = ObjectAnimator.ofFloat(target, "scaleX", 1.0f, 0.5f)
         val scaleY = ObjectAnimator.ofFloat(target, "scaleY", 1.0f, 0.5f)
         //随机方向
-        val maxDistance = 400
+        val maxDistance = 600
         val randomX = mRandom.nextInt(maxDistance) + 0f - mRandom.nextInt(maxDistance)
+        val randomY = mRandom.nextInt(maxDistance) + 0f - mRandom.nextInt(maxDistance)
 
         val translateY = ObjectAnimator.ofFloat(
             target,
             "translationY",
             -translationDistance,
-            -maxDistance - translationDistance
+            randomY - translationDistance
         )
         val randomTranslateX =
-            ObjectAnimator.ofFloat(target, "translationX", mTranslationX, -randomX + mTranslationX)
+            ObjectAnimator.ofFloat(target, "translationX", 0f, randomX)
 
         val lastAnimation = AnimatorSet()
         lastAnimation.playTogether(alpha, randomTranslateX, translateY, scaleX, scaleY)
@@ -210,13 +210,10 @@ class HomeLikeAnimView @JvmOverloads constructor(
     }
 
     private fun recycle(target: ViewHolder) {
+        logd("recycle")
         target.imageView.clearAnimation()
         val root = target.root
         removeView(root)
-        if (root != null) {
-            val parent = (root) as ViewGroup
-            parent.removeView(root)
-        }
         target.imageView.setImageDrawable(null)
 
         if (mCacheViewHolders.size < MAX_CACHE_SIZE) {
@@ -227,6 +224,7 @@ class HomeLikeAnimView @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         mCacheViewHolders.clear()
+        handler.removeCallbacksAndMessages(null)
         super.onDetachedFromWindow()
     }
 
@@ -236,15 +234,16 @@ class HomeLikeAnimView @JvmOverloads constructor(
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        addView(createLottieView())
+        addView(createBombView())
     }
 
-
     var lottieAnimationView: LottieAnimationView? = null
-    private fun createLottieView(): View? {
-        var view = View.inflate(context, R.layout.room_like_lottieview, null)
+    var ivBomb: ImageView? = null
+    private fun createBombView(): View? {
+        val view = View.inflate(context, R.layout.room_like_lottieview, null)
         view.layoutParams = LayoutParams(childViewWidth, childViewHeight)
         lottieAnimationView = view.findViewById<LottieAnimationView>(R.id.lottieLikeView)
+        ivBomb = view.findViewById<ImageView>(R.id.ivBomb)
         return view
     }
 
