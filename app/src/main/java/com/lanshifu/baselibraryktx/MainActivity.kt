@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_login.mBtnLogin
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import xcrash.XCrash
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +40,10 @@ class MainActivity : AppCompatActivity() {
 
         ivLauncher.setOnClickListener {
             likeAnim.addLikeView()
+        }
+
+        btnNativeCrash.setOnClickListener {
+            XCrash.testNativeCrash(false)
         }
 
 

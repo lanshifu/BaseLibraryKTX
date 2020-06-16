@@ -8,20 +8,16 @@ import io.alterac.blurkit.BlurKit
 import okhttp3.Interceptor
 
 
-class MyApp : BaseApplication() {
+class MyApplication : BaseApplication() {
 
     override fun onCreate() {
         super.onCreate()
         BlurKit.init(this)
     }
 
-
-    override fun initDoKit(list: List<AbstractKit>?, pid: String) {
-
-        val kits = mutableListOf<AbstractKit>()
-        kits.add(EnvSwitchKit())
-
-        super.initDoKit(kits, pid)
+    override fun initDoKit(list: MutableList<AbstractKit>, pid: String) {
+        list.add(EnvSwitchKit())
+        super.initDoKit(list, pid)
     }
 
     //可以自定义网络配置
