@@ -12,11 +12,11 @@ import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
 import com.lanshifu.lib.ext.reverseVisibility
 import com.lanshifu.lib.ext.toast
+import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_login.mBtnLogin
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import xcrash.XCrash
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,7 +43,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnNativeCrash.setOnClickListener {
-            XCrash.testNativeCrash(false)
+//            XCrash.testNativeCrash(false)
+//            CrashReport.testNativeCrash()
+            CrashReport.testJavaCrash()
         }
 
 

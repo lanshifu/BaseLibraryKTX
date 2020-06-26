@@ -2,6 +2,8 @@ package com.lanshifu.baselibraryktx
 
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.lanshifu.baselibraryktx.dokit.EnvSwitchKit
+import com.lanshifu.baselibraryktx.third.BuglyTask
+import com.lanshifu.baselibraryktx.third.XCrashTask
 import com.lanshifu.lib.base.BaseApplication
 import com.lanshifu.lib.ext.logd
 import io.alterac.blurkit.BlurKit
@@ -13,6 +15,10 @@ class MyApplication : BaseApplication() {
     override fun onCreate() {
         super.onCreate()
         BlurKit.init(this)
+
+        XCrashTask.run(this)
+
+        BuglyTask.run(this)
     }
 
     override fun initDoKit(list: MutableList<AbstractKit>, pid: String) {
@@ -29,4 +35,5 @@ class MyApplication : BaseApplication() {
         super.initNetwork(interceptors)
 
     }
+
 }
