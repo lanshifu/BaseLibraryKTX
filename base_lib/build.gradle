@@ -3,14 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 android {
-    compileSdkVersion 29
-
-
+    compileSdkVersion Version.compileSdkVersion
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion Version.minSdkVersion
+        targetSdkVersion Version.targetSdkVersion
+        versionCode Version.versionCode
+        versionName Version.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -32,57 +30,48 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'androidx.appcompat:appcompat:1.1.0'
-    api 'androidx.core:core-ktx:1.2.0'
 
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0"
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha04"
-    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha04'
-    api 'androidx.recyclerview:recyclerview:1.1.0-beta04'
-
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
-
-    // retrofit
-//    api 'com.squareup.retrofit2:retrofit:2.6.0'
-//    api 'com.squareup.retrofit2:converter-gson:2.6.0'
-
+    api Deps.appcompat
+    api Deps.core_ktx
+    api Deps.kotlin_stdlib_jdk7
+    api Deps.kotlinx_coroutines_android
+    api Deps.lifecycle_viewmodel_ktx
+    api Deps.lifecycle_extensions
+    api Deps.recyclerview
+    api Deps.BaseRecyclerViewAdapterHelper
 
     // okHttp log
-    api 'com.squareup.okhttp3:logging-interceptor:3.12.1'
-
+    api Deps.okhttp3_logging_interceptor
     //屏幕适配
-    api 'me.jessyan:autosize:1.2.1'
+    api Deps.autosize
+    api Deps.eventbus
+    api Deps.cardview
+    api Deps.glide
 
-    api 'org.greenrobot:eventbus:3.2.0'
+    api Deps.smart_refresh_layout_kernel         //核心必须依赖
+    api Deps.smart_refresh_layout_header_material //谷歌刷新头
+    api Deps.smart_refresh_layout_footer_classics //经典加载
 
-    api 'androidx.cardview:cardview:1.0.0'
-    api 'com.github.bumptech.glide:glide:4.11.0'
+    debugApi Deps.doraemonkit_debug
+    releaseApi Deps.doraemonkit_release
+    debugApi Deps.doraemonkit_leakcanary
 
-    //刷新
-    api  'com.scwang.smart:refresh-layout-kernel:2.0.0'      //核心必须依赖
-    api  'com.scwang.smart:refresh-header-material:2.0.0'    //谷歌刷新头
-    api  'com.scwang.smart:refresh-footer-classics:2.0.0'    //经典加载
+    api Deps.constraintlayout
 
-    debugApi 'com.didichuxing.doraemonkit:doraemonkit:3.1.5'
-    releaseApi 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.5'
-    debugApi 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.5'
+    api Deps.mmkv
 
-    api 'androidx.constraintlayout:constraintlayout:1.1.3'
-
-    api 'com.tencent:mmkv-static:1.1.1'
-
-    api'com.android.support:multidex:1.0.3'
+    api Deps.multidex
 
     //流布局
-    api 'com.google.android:flexbox:2.0.1'
-
-    api "com.airbnb.android:lottie:3.4.0"
+    api Deps.flexbox
 
     //引入新的网络框架
-    api "com.ljx.rxhttp:rxhttp:2.2.0"
-    kapt 'com.ljx.rxhttp:rxhttp-compiler:2.2.0' //生成RxHttp类
+    api Deps.rxhttp
+    kapt Deps.rxhttp_compiler
 
     //xcrash，爱奇艺奔溃捕获方案
-    api 'com.iqiyi.xcrash:xcrash-android-lib:2.4.9'
+    api Deps.xcrash
+
+    api Deps.lottie
+
 }
