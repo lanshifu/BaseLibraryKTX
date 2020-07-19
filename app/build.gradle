@@ -135,5 +135,8 @@ dependencies {
     implementation Deps.crashreport
     implementation Deps.nativecrashreport
 
+    //hook 框架 https://github.com/tiann/epic/blob/master/README_cn.md
+    implementation "me.weishu:epic:0.6.0"
+
 
 }

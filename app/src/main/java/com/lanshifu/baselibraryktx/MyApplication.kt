@@ -2,6 +2,7 @@ package com.lanshifu.baselibraryktx
 
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.lanshifu.baselibraryktx.dokit.EnvSwitchKit
+import com.lanshifu.baselibraryktx.hook.MethodHook
 import com.lanshifu.baselibraryktx.third.BuglyTask
 import com.lanshifu.baselibraryktx.third.XCrashTask
 import com.lanshifu.lib.base.BaseApplication
@@ -19,6 +20,8 @@ class MyApplication : BaseApplication() {
         XCrashTask.run(this)
 
         BuglyTask.run(this)
+
+        MethodHook.hookThread()
     }
 
     override fun initDoKit(list: MutableList<AbstractKit>, pid: String) {
