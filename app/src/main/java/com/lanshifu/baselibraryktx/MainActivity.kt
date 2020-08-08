@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.lanshifu.baselibraryktx.fragmentstatus.TestFragment
 import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
+import com.lanshifu.baselibraryktx.list.DemoListActivity
 import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
@@ -28,14 +29,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mBtnLogin.setOnClickListener {
-            startActivity(Intent(this,LoginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
         btnBlurLayout.setOnClickListener {
             blurLayout.alpha = 1f
             blurLayout.reverseVisibility()
         }
         btnGift.setOnClickListener {
-            startActivity(Intent(this,GiftSurfaceViewActivity::class.java))
+            startActivity(Intent(this, GiftSurfaceViewActivity::class.java))
         }
 
         ivLauncher.setOnClickListener {
@@ -48,21 +49,25 @@ class MainActivity : AppCompatActivity() {
             CrashReport.testJavaCrash()
         }
 
+        btnList.setOnClickListener {
+            startActivity(Intent(this, DemoListActivity::class.java))
+        }
+
 
         val drawable = ivBomb?.drawable as AnimationDrawable
         drawable.isOneShot = false
         drawable.start()
 
         lifecycleScope.launch {
-                var i = 0
-                withContext(Dispatchers.Default) {
-                    Thread.sleep(3000)
-                    i = 3
+            var i = 0
+            withContext(Dispatchers.Default) {
+                Thread.sleep(3000)
+                i = 3
 
-                }
-
-                toast("协程代码块执行完成,i=$i")
             }
+
+            toast("协程代码块执行完成,i=$i")
+        }
 
 
 
@@ -93,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.fl_container, testFragment!!, "TestFragment")
                 .commit()
 
-        }else{
+        } else {
             testFragment = fragment as TestFragment
             logd("TestFragment 不空")
         }
@@ -102,13 +107,4 @@ class MainActivity : AppCompatActivity() {
         logd("testFragmentStatus")
     }
 
-    override fun onStart() {
-//        blurLayout.startBlur()
-        super.onStart()
-    }
-
-    override fun onStop() {
-//        blurLayout.pauseBlur()
-        super.onStop()
-    }
 }

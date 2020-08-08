@@ -1,6 +1,7 @@
 package com.lanshifu.baselibraryktx.hook
 
 import android.util.Log
+import com.lanshifu.baselibraryktx.BuildConfig
 import com.taobao.android.dexposed.DexposedBridge
 import com.taobao.android.dexposed.XC_MethodHook
 
@@ -13,6 +14,10 @@ object MethodHook {
     val TAG = "MethodHook"
 
     fun hookThread() {
+        if (!BuildConfig.DEBUG){
+            return
+        }
+
         DexposedBridge.hookAllConstructors(Thread::class.java, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: MethodHookParam) {

@@ -17,14 +17,21 @@ abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope()
     protected var activity: AppCompatActivity? = null
     private var progressDialog: ProgressDialog? = null
     private val progressBar  by lazy { findViewById<ProgressBar>(R.id.loading) }
+    private var isStart = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity = this
         setContentView(getLayoutResId())
         initView()
-//        setSupportActionBar(mToolbar)
-        initData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!isStart) {
+            initData()
+        }
+        isStart = true
     }
 
     abstract fun getLayoutResId(): Int

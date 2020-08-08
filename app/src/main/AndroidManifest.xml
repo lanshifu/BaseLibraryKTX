@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".mvvm.login.LoginActivity" />
         <activity android:name=".gift.GiftSurfaceViewActivity" />
+        <activity android:name=".list.DemoListActivity" />
     </application>
 
 </manifest>
