@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.lanshifu.baselibraryktx.fragmentstatus.TestFragment
 import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
@@ -83,7 +84,10 @@ class MainActivity : AppCompatActivity() {
 
 
         testFragmentStatus()
+
+        ProcessLifecycleOwner.get().lifecycle.addObserver(ProcessLifecycleObserver())
     }
+
 
     private fun testFragmentStatus() {
 
