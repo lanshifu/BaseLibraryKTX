@@ -1,7 +1,9 @@
 package com.lanshifu.baselibraryktx
 
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.lanshifu.baselibraryktx.dokit.BaiduDokit
 import com.lanshifu.baselibraryktx.dokit.EnvSwitchKit
+import com.lanshifu.baselibraryktx.dokit.PreloadWebviewDokit
 import com.lanshifu.baselibraryktx.hook.MethodHook
 import com.lanshifu.baselibraryktx.third.BuglyTask
 import com.lanshifu.baselibraryktx.third.XCrashTask
@@ -26,6 +28,8 @@ class MyApplication : BaseApplication() {
 
     override fun initDoKit(list: MutableList<AbstractKit>, pid: String) {
         list.add(EnvSwitchKit())
+        list.add(PreloadWebviewDokit())
+        list.add(BaiduDokit())
         super.initDoKit(list, pid)
     }
 

@@ -23,4 +23,5 @@
     <string name="fragment">测试 Fragment</string>
 
     <string name="test">测试</string>
+    <string name="preloadWebview">预加载</string>
 </resources>

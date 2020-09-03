@@ -35,6 +35,8 @@
                 tools:replace="name,resource" />
         </provider>
 
+        <activity android:name=".widget.WebViewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 

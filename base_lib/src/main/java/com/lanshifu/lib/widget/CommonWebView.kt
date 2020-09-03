@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION_CODES.KITKAT
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup.LayoutParams
@@ -23,6 +24,8 @@ import com.lanshifu.lib.ext.*
 open class CommonWebView : WebView {
 
     var progressbar: ProgressBar? = null
+
+    var mListener: OnWebViewListener? = null
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -100,6 +103,13 @@ open class CommonWebView : WebView {
                 super.onPageFinished(webView, s)
 //                setWebImageClick(this@X5WebView, JSCALLJAVA)
                 mListener?.onPageFinish()
+
+                logd("onPageFinished")
+                //加载图片
+                if(!webView.settings.loadsImagesAutomatically) {
+                    webView.settings.loadsImagesAutomatically = true
+                    logd("loadsImagesAutomatically=true")
+                }
             }
         }
 
@@ -156,6 +166,9 @@ open class CommonWebView : WebView {
             setWebContentsDebuggingEnabled(true)
             "setWebContentsDebuggingEnabled（true）".logd()
         }
+
+        //告诉WebView先不要自动加载图片，等页面finish后再发起图片加载
+        settings.loadsImagesAutomatically = Build.VERSION.SDK_INT >= KITKAT
     }
 
 
@@ -196,11 +209,6 @@ open class CommonWebView : WebView {
         }
 
 
-    }
-
-
-    companion object {
-        var mListener: OnWebViewListener? = null
     }
 
     //进度回调接口
