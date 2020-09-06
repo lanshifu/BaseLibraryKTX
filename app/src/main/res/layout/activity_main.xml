@@ -67,6 +67,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="列表"/>
+        <Button
+            android:id="@+id/btnRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="录音"/>
 
         <com.airbnb.lottie.LottieAnimationView
             android:visibility="gone"

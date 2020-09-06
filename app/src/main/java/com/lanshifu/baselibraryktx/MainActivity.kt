@@ -10,6 +10,7 @@ import com.lanshifu.baselibraryktx.fragmentstatus.TestFragment
 import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
 import com.lanshifu.baselibraryktx.list.DemoListActivity
 import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
+import com.lanshifu.baselibraryktx.record.RecordActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
 import com.lanshifu.lib.ext.reverseVisibility
@@ -52,6 +53,9 @@ class MainActivity : AppCompatActivity() {
 
         btnList.setOnClickListener {
             startActivity(Intent(this, DemoListActivity::class.java))
+        }
+        btnRecord.setOnClickListener {
+            startActivity(Intent(this, RecordActivity::class.java))
         }
 
 
