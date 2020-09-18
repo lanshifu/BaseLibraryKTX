@@ -18,7 +18,7 @@
         android:visibility="gone"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/bomb"
+        android:src="@drawable/room_like_bomb"
         android:layout_gravity="center"/>
 
 </FrameLayout>

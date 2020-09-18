@@ -73,6 +73,12 @@
             android:layout_height="wrap_content"
             android:text="录音"/>
 
+        <Button
+            android:id="@+id/btnBanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="banner"/>
+
         <com.airbnb.lottie.LottieAnimationView
             android:visibility="gone"
             android:id="@+id/lottieLikeView"
@@ -89,7 +95,7 @@
             android:id="@+id/ivBomb"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/bomb"
+            android:src="@drawable/room_like_bomb"
             android:layout_gravity="center"/>
 
     </com.google.android.flexbox.FlexboxLayout>

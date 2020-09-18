@@ -1,16 +1,10 @@
 package com.lanshifu.baselibraryktx;
 
 /**
- * @author lanxiaobin
- * @date 2020/8/31
- *
- * /**
- * * VM agrs: -Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails
- * * -XX:SurvivorRatio=8
- *
+ * VM agrs: -Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails -XX:SurvivorRatio=8
+ * 
  */
 public class MinorGCTest {
-    
     private static final int _1MB = 1024 * 1024;
 
     public static void testAllocation() {

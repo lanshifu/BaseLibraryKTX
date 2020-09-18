@@ -37,6 +37,7 @@
 
         <activity android:name=".widget.WebViewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".ui.CommonWebViewActivity" />
     </application>
 
 

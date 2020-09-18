@@ -3,10 +3,13 @@ package com.lanshifu.lib.widget
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
+import android.graphics.drawable.ClipDrawable
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION_CODES.KITKAT
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams
 import android.webkit.*
@@ -50,14 +53,12 @@ open class CommonWebView : WebView {
 
 
     private fun initView() { //创建进度条
-        progressbar = View.inflate(context, R.layout.horizon_progress, null) as ProgressBar
-        //设置加载进度条的高度
-        progressbar?.setLayoutParams(
-            LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                dp2px(2)
-            )
-        )
+        progressbar = ProgressBar(this.context, null, android.R.attr.progressBarStyleHorizontal)
+        progressbar?.setLayoutParams(LayoutParams(LayoutParams.MATCH_PARENT, 10, 0, 0))
+        val progressBarColor = resources.getColor(R.color.colorAccent)
+        val d = ClipDrawable(ColorDrawable(progressBarColor), Gravity.LEFT, ClipDrawable.HORIZONTAL)
+        progressbar?.setProgressDrawable(d)
+
         addView(progressbar)
         webChromeClient = WVChromeClient()
         webViewClient = object : WebViewClient() {

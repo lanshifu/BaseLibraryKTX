@@ -13,5 +13,9 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+
+        var textForNumber = TestClass.textForNumber(19010)
+
+        println(textForNumber)
     }
 }

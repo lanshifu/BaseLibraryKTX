@@ -21,7 +21,6 @@
         android:id="@+id/bthAudioStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:text="录制Mp3"
         android:textAllCaps="false" />
 
@@ -29,7 +28,6 @@
         android:id="@+id/bthAudioStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:text="停止Mp3"
         android:textAllCaps="false" />
 
@@ -37,7 +35,6 @@
         android:id="@+id/bthAudioPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:text="播放Mp3"
         android:textAllCaps="false" />
 

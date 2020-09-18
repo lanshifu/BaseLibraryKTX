@@ -19,11 +19,11 @@ class MyApplication : BaseApplication() {
         super.onCreate()
         BlurKit.init(this)
 
-        XCrashTask.run(this)
-
-        BuglyTask.run(this)
-
-        MethodHook.hookThread()
+//        XCrashTask.run(this)
+//
+//        BuglyTask.run(this)
+//
+//        MethodHook.hookThread()
     }
 
     override fun initDoKit(list: MutableList<AbstractKit>, pid: String) {

@@ -146,4 +146,15 @@ dependencies {
     //线程监控 https://github.com/codoon/ThreadTracker
     debugImplementation 'com.codoon.threadtracker:threadtracker:1.1.0'
 
+    //https://github.com/youth5201314/banner
+    implementation 'com.youth.banner:banner:2.1.0'
+
+    compile 'com.jaredrummler:android-shell:1.0.0'
+
+}
+configurations.all {
+    resolutionStrategy {
+        //解决v4包冲突，强制使用这个版本的v4包
+        force 'com.android.support:support-v4:26.1.0'
+    }
 }

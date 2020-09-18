@@ -60,7 +60,7 @@ class RecordActivity : AppCompatActivity() {
         //读写权限判断
         PermissionUtils.readAndWrite(this) {
             //获取保存的文件
-            val file = File(Environment.getExternalStorageDirectory(),"test.mp3")
+            val file = File(cacheDir,"test.mp3")
             mFilePath = file.absolutePath
             mMP3Recorder = MP3Recorder(file)
             Log.i("lxb","mFilePath=$mFilePath")

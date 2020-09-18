@@ -34,6 +34,7 @@
         <activity android:name=".gift.GiftSurfaceViewActivity" />
         <activity android:name=".list.DemoListActivity" />
         <activity android:name=".record.RecordActivity" />
+        <activity android:name=".banner.BannerActivity" />
     </application>
 
 </manifest>

@@ -1,11 +1,14 @@
 package com.lanshifu.baselibraryktx
 
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.lanshifu.baselibraryktx.banner.BannerActivity
 import com.lanshifu.baselibraryktx.fragmentstatus.TestFragment
 import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
 import com.lanshifu.baselibraryktx.list.DemoListActivity
@@ -13,13 +16,15 @@ import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
 import com.lanshifu.baselibraryktx.record.RecordActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
+import com.lanshifu.lib.ext.logi
 import com.lanshifu.lib.ext.reverseVisibility
 import com.lanshifu.lib.ext.toast
-import com.tencent.bugly.crashreport.CrashReport
+import com.lanshifu.baselibraryktx.shell.ShellTest
 import kotlinx.android.synthetic.main.activity_login.mBtnLogin
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.lang.String
 
 
 class MainActivity : AppCompatActivity() {
@@ -48,7 +53,8 @@ class MainActivity : AppCompatActivity() {
         btnNativeCrash.setOnClickListener {
 //            XCrash.testNativeCrash(false)
 //            CrashReport.testNativeCrash()
-            CrashReport.testJavaCrash()
+//            CrashReport.testJavaCrash()
+//            NativeClass.crash()
         }
 
         btnList.setOnClickListener {
@@ -56,6 +62,10 @@ class MainActivity : AppCompatActivity() {
         }
         btnRecord.setOnClickListener {
             startActivity(Intent(this, RecordActivity::class.java))
+        }
+
+        btnBanner.setOnClickListener {
+            startActivity(Intent(this, BannerActivity::class.java))
         }
 
 
@@ -89,7 +99,13 @@ class MainActivity : AppCompatActivity() {
 
         testFragmentStatus()
 
+        getMemoryInfo()
+
         ProcessLifecycleOwner.get().lifecycle.addObserver(ProcessLifecycleObserver())
+
+        viewModelStore.run {
+            ShellTest.isAvailableByPing("https://www.baidu.com/")
+        }
     }
 
 
@@ -113,6 +129,15 @@ class MainActivity : AppCompatActivity() {
 
 
         logd("testFragmentStatus")
+    }
+
+
+    fun getMemoryInfo(){
+        val am = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val memoryInfo = ActivityManager.MemoryInfo()
+        am.getMemoryInfo(memoryInfo)
+        logi(String.valueOf("getMemoryInfo:${memoryInfo.availMem / (1024 * 1024)}MB"))
+        handler.postDelayed({getMemoryInfo()},2000)
     }
 
 }

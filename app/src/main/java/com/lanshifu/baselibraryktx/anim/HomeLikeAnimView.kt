@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
+import android.os.Handler
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class HomeLikeAnimView @JvmOverloads constructor(
     private var mLikeDrawables: MutableList<Drawable> = ArrayList()
     private var mDisLikeDrawables: MutableList<Drawable> = ArrayList()
     private var mRandom = Random()// 用于产生随机数,如生成随机图片
+    private val ivBombGoneHandler = Handler()
 
     private fun initParams() {
         mLikeDrawables.add(generateDrawable(R.mipmap.room_like_1))
@@ -129,23 +131,24 @@ class HomeLikeAnimView @JvmOverloads constructor(
     private fun startAnimation(animatorSet:AnimatorSet){
         //帧动画
         val drawable = ivBomb?.drawable as AnimationDrawable?
-        drawable?.isOneShot = true
         ivBomb?.visible()
         if (drawable?.isRunning == true){
             logd("drawable?.isRunning == true,animatorSet.start()")
             drawable.stop()
-//            handler.removeCallbacksAndMessages(null)
-//            animatorSet.start()
 
         }
+        drawable?.isOneShot = true
         drawable?.start()
 
         handler.postDelayed({
             logd("postDelayed animatorSet.start()")
-            drawable?.stop()
-            ivBomb?.gone()
             animatorSet.start()
         },500)
+
+        ivBombGoneHandler.removeCallbacksAndMessages(null)
+        ivBombGoneHandler.postDelayed({
+            ivBomb?.gone()
+        },600)
     }
 
     private fun generateFirstAnimation(target: View): Animator {
@@ -225,6 +228,7 @@ class HomeLikeAnimView @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         mCacheViewHolders.clear()
         handler.removeCallbacksAndMessages(null)
+        ivBombGoneHandler.removeCallbacksAndMessages(null)
         super.onDetachedFromWindow()
     }
 
