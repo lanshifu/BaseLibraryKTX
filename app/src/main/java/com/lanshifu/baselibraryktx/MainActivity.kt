@@ -4,8 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.lanshifu.baselibraryktx.banner.BannerActivity
@@ -14,12 +13,12 @@ import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
 import com.lanshifu.baselibraryktx.list.DemoListActivity
 import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
 import com.lanshifu.baselibraryktx.record.RecordActivity
+import com.lanshifu.baselibraryktx.shell.ShellTest
+import com.lanshifu.lib.base.BaseVMActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
-import com.lanshifu.lib.ext.logi
 import com.lanshifu.lib.ext.reverseVisibility
 import com.lanshifu.lib.ext.toast
-import com.lanshifu.baselibraryktx.shell.ShellTest
 import kotlinx.android.synthetic.main.activity_login.mBtnLogin
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
@@ -27,12 +26,26 @@ import kotlinx.coroutines.withContext
 import java.lang.String
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseVMActivity<MainVM>() {
 
     var testFragment: TestFragment? = null
     val handler = LifecycleHandler(this)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+
+    override fun getLayoutResId(): Int {
+        return R.layout.activity_main
+    }
+
+
+    override fun initData() {
+
+        mViewModel.smsCode.observe(this, Observer {
+            logd("倒计时:$it")
+        })
+        mViewModel.getSmsCode("")
+    }
+
+    override fun initView() {
         setContentView(R.layout.activity_main)
 
         mBtnLogin.setOnClickListener {
@@ -136,7 +149,7 @@ class MainActivity : AppCompatActivity() {
         val am = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val memoryInfo = ActivityManager.MemoryInfo()
         am.getMemoryInfo(memoryInfo)
-        logi(String.valueOf("getMemoryInfo:${memoryInfo.availMem / (1024 * 1024)}MB"))
+        logd(String.valueOf("getMemoryInfo:$memoryInfo.availMem / (1024 * 1024)}MB"))
         handler.postDelayed({getMemoryInfo()},2000)
     }
 

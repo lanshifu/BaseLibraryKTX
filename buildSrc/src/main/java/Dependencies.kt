@@ -64,7 +64,7 @@ object Deps {
 
     val mmkv = "com.tencent:mmkv-static:1.1.1"
 
-    val multidex = "com.android.support:multidex:1.0.3"
+    val multidex = "com.android.support:multidex:1.2.2"
 
     val flexbox = "com.google.android:flexbox:2.0.1"
 

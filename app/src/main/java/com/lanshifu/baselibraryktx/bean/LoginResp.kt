@@ -1,4 +1,4 @@
-package luyao.util.ktx.bean
+package com.lanshifu.baselibraryktx.bean
 
 
 data class LoginResp(

@@ -1,7 +1,7 @@
 package com.lanshifu.baselibraryktx.api
 
 import com.lanshifu.baselibraryktx.bean.BaseResponse
-import luyao.util.ktx.bean.LoginResp
+import com.lanshifu.baselibraryktx.bean.LoginResp
 import rxhttp.delay
 import rxhttp.retry
 import rxhttp.toClass
@@ -17,6 +17,11 @@ class WanandroidFactory {
             .retry(3,1000)
             .delay(1000)
             .await()
+    }
+
+
+    fun loginByRetrofit(account: String, password: String){
+
     }
 
 }

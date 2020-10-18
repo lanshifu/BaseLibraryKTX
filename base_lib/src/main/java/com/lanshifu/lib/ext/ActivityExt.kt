@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import java.io.Serializable
 
@@ -111,4 +112,10 @@ fun Activity.showKeyboard(et: EditText) {
 fun Activity.hideKeyboard(view: View) {
     inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+val Activity.decorView: FrameLayout?
+    get() = (takeIf { !isFinishing && !isDestroyed }?.window?.decorView) as? FrameLayout
+
+val Activity.contentView: FrameLayout?
+    get() = takeIf { !isFinishing && !isDestroyed }?.window?.decorView?.findViewById<FrameLayout>(android.R.id.content)
 

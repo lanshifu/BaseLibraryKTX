@@ -2,7 +2,6 @@ package com.lanshifu.lib.base
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.multidex.MultiDex
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
@@ -11,15 +10,7 @@ import com.lanshifu.lib.ext.logd
 import com.lanshifu.lib.network.BaseOkHttpClient
 import com.tencent.mmkv.MMKV
 import okhttp3.Interceptor
-import org.json.JSONObject
 import rxhttp.wrapper.param.RxHttp
-import xcrash.ICrashCallback
-import xcrash.TombstoneManager
-import xcrash.TombstoneParser
-import xcrash.XCrash
-import xcrash.XCrash.InitParameters
-import java.io.File
-import java.io.FileWriter
 
 
 /**
@@ -59,10 +50,9 @@ open class BaseApplication : Application() {
         val processName = getCurrentProcessName()
         val isMainProcess = applicationContext.packageName == processName
         if (isMainProcess) {
-            logd("initMMKV")
             val rootDir = filesDir.absolutePath + "/mmkv"
             val dir = MMKV.initialize(rootDir)
-            println("mmkv dir: $dir")
+            logd("initMMKV,mmkv dir: $dir")
         }
 
 

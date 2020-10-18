@@ -7,7 +7,7 @@ import com.lanshifu.lib.base.BaseViewModel
 import com.lanshifu.lib.ext.logd
 import com.lanshifu.lib.ext.loge
 import com.lanshifu.lib.ext.toast
-import luyao.util.ktx.bean.LoginResp
+import com.lanshifu.baselibraryktx.bean.LoginResp
 
 class LoginVm : BaseViewModel<WanandroidFactory>() {
 
