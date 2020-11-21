@@ -1,0 +1,34 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+dependencies {
+
+    annotationProcessor "com.google.auto.service:auto-service:1.0-rc6"
+
+    compile gradleApi()
+    compile localGroovy()
+
+    compile 'com.android.tools.build:gradle:3.4.2'
+
+    //ASM相关依赖
+    implementation 'org.ow2.asm:asm:7.1'
+    implementation 'org.ow2.asm:asm-commons:7.1'
+
+//    implementation project(':booster-api')
+//    implementation project(':booster-transform-asm')
+}
+
+group='lanshifu.thread.plugin'
+version='1.0.0'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //本地的Maven地址设置
+            repository(url: uri('../local_repo'))
+        }
+    }
+}

@@ -8,11 +8,9 @@ import com.lanshifu.lib.base.mmkv.getMmkvValue
 import com.lanshifu.lib.base.mmkv.putMmkvValue
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
-import com.lanshifu.lib.ext.sharedpreferences.putSpValue
 import com.lanshifu.lib.ext.toast
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 
 class LoginActivity : BaseVMActivity<LoginVm>() {
@@ -26,6 +24,10 @@ class LoginActivity : BaseVMActivity<LoginVm>() {
         mBtnLogin.setOnClickListener {
             showProgressDialog()
             mViewModel.login(mTieAccount.text.toString(), mTiePassword.text.toString())
+        }
+
+        mBtnCollect.setOnClickListener {
+
         }
 
         if (!getMmkvValue("isLogin",false)){

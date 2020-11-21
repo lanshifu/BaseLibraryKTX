@@ -1,2 +1,8 @@
-include ':app',":base_lib"
+include ':app'
+include ":base_lib"
+include ':booster-android-api'
+include ':booster-android-instrument'
+include ':asm_plugin_library'
+include ':asm_thread_plugin'
+include ':asm_fastclick_plugin'
 rootProject.name='BaseLibraryKTX'
