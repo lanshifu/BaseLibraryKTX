@@ -5,8 +5,6 @@ import com.lanshifu.baselibraryktx.dokit.BaiduDokit
 import com.lanshifu.baselibraryktx.dokit.EnvSwitchKit
 import com.lanshifu.baselibraryktx.dokit.PreloadWebviewDokit
 import com.lanshifu.baselibraryktx.hook.MethodHook
-import com.lanshifu.baselibraryktx.third.BuglyTask
-import com.lanshifu.baselibraryktx.third.XCrashTask
 import com.lanshifu.lib.base.BaseApplication
 import com.lanshifu.lib.ext.logd
 import io.alterac.blurkit.BlurKit
@@ -23,7 +21,7 @@ class MyApplication : BaseApplication() {
 //
 //        BuglyTask.run(this)
 //
-//        MethodHook.hookThread()
+        MethodHook.hookThread()
     }
 
     override fun initDoKit(list: MutableList<AbstractKit>, pid: String) {

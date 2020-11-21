@@ -17,6 +17,7 @@ import com.lanshifu.baselibraryktx.shell.ShellTest
 import com.lanshifu.lib.base.BaseVMActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
+import com.lanshifu.lib.ext.logi
 import com.lanshifu.lib.ext.reverseVisibility
 import com.lanshifu.lib.ext.toast
 import kotlinx.android.synthetic.main.activity_login.mBtnLogin
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.String
+import kotlin.concurrent.thread
 
 
 class MainActivity : BaseVMActivity<MainVM>() {
@@ -42,7 +44,7 @@ class MainActivity : BaseVMActivity<MainVM>() {
         mViewModel.smsCode.observe(this, Observer {
             logd("倒计时:$it")
         })
-        mViewModel.getSmsCode("")
+//        mViewModel.getSmsCode("")
     }
 
     override fun initView() {
@@ -81,6 +83,10 @@ class MainActivity : BaseVMActivity<MainVM>() {
             startActivity(Intent(this, BannerActivity::class.java))
         }
 
+        btnLeak.setOnClickListener {
+            startActivity(Intent(this, LeakActivity::class.java))
+        }
+
 
         val drawable = ivBomb?.drawable as AnimationDrawable
         drawable.isOneShot = false
@@ -112,12 +118,16 @@ class MainActivity : BaseVMActivity<MainVM>() {
 
         testFragmentStatus()
 
-        getMemoryInfo()
+//        getMemoryInfo()
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(ProcessLifecycleObserver())
 
         viewModelStore.run {
             ShellTest.isAvailableByPing("https://www.baidu.com/")
+        }
+
+        thread {
+            logi("Main 创建的线程")
         }
     }
 
