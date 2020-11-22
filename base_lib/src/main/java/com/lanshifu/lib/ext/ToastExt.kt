@@ -23,6 +23,7 @@ fun showToast(content: String, duration: Int = Toast.LENGTH_SHORT) {
  * 更方便
  */
 fun Any.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
+    logd("toast:$content")
     showToast(content, duration)
 }
 

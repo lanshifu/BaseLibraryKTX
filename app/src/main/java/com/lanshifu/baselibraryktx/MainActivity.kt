@@ -14,6 +14,7 @@ import com.lanshifu.baselibraryktx.list.DemoListActivity
 import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
 import com.lanshifu.baselibraryktx.record.RecordActivity
 import com.lanshifu.baselibraryktx.shell.ShellTest
+import com.lanshifu.baselibraryktx.threadtest.ThreadTest
 import com.lanshifu.lib.base.BaseVMActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
@@ -26,6 +27,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.String
 import kotlin.concurrent.thread
+import java.util.*
+import java.util.concurrent.*
 
 
 class MainActivity : BaseVMActivity<MainVM>() {
@@ -33,6 +36,7 @@ class MainActivity : BaseVMActivity<MainVM>() {
     var testFragment: TestFragment? = null
     val handler = LifecycleHandler(this)
 
+    var excutor = ThreadPoolExecutor(2,2,60,TimeUnit.SECONDS,LinkedBlockingDeque())
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_main
@@ -95,7 +99,7 @@ class MainActivity : BaseVMActivity<MainVM>() {
         lifecycleScope.launch {
             var i = 0
             withContext(Dispatchers.Default) {
-                Thread.sleep(3000)
+                Thread.sleep(30000)
                 i = 3
 
             }
@@ -126,9 +130,8 @@ class MainActivity : BaseVMActivity<MainVM>() {
             ShellTest.isAvailableByPing("https://www.baidu.com/")
         }
 
-        thread {
-            logi("Main 创建的线程")
-        }
+        ThreadTest.run()
+        stackTest()
     }
 
 
@@ -161,6 +164,54 @@ class MainActivity : BaseVMActivity<MainVM>() {
         am.getMemoryInfo(memoryInfo)
         logd(String.valueOf("getMemoryInfo:$memoryInfo.availMem / (1024 * 1024)}MB"))
         handler.postDelayed({getMemoryInfo()},2000)
+    }
+
+
+    var preStack = LinkedList<Int>()
+    var nextStack = LinkedList<Int>()
+    var currentPlaying = -1
+
+    fun stackTest(){
+        if (nextStack.isEmpty() && preStack.isEmpty()){
+            nextStack.push(4)
+            nextStack.push(3)
+            nextStack.push(2)
+            nextStack.push(1)
+        }
+
+        btnPre.setOnClickListener {
+            if (preStack.isEmpty()){
+                val removeLast = nextStack.removeLast()
+                preStack.push(removeLast)
+
+            }
+
+            if (currentPlaying != -1){
+                nextStack.push(currentPlaying)
+            }
+            currentPlaying = preStack.pop()
+            toast("currentPlaying=$currentPlaying")
+        }
+
+        btnNext.setOnClickListener {
+            if (nextStack.isEmpty()){
+                toast("没有下一个了")
+                nextStack.push(preStack.removeLast())
+            }
+
+            if (currentPlaying != -1){
+                preStack.push(currentPlaying)
+            }
+
+            currentPlaying = nextStack.pop()
+            toast("currentPlaying=$currentPlaying")
+        }
+
+        btnInsert.setOnClickListener {
+
+        }
+
+
     }
 
 }

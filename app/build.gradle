@@ -6,190 +6,13 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'com.didiglobal.booster'
+
 //apply plugin: 'com.codoon.threadtracker'
 
 //apply plugin: 'com.didi.dokit'
 
-apply plugin: 'lanshifu.asm.fastclick'
-
-def a = 1
-def int b = 2
-def c = "hello"
-
-task method() {
-
-//    assert 1+2 == 6
-//    add(1,2)
-//
-//    def person = new Person();
-//    person.increaseAge(5)
-//    println("age=" + person.age)
-
-    def x = 0
-    for (i in 0..3){
-        x+=i
-    }
-    assert x==6
-
-    //遍历列表
-    def y = 0
-    for (i in [0,1,2,3]){
-        y +=i
-    }
-    assert y==6
-
-    //遍历map中取值
-    def map = ['a':1,'b':2,"c":3,4:"d"]
-    for (z in map.values()){
-        println("value=$z")
-    }
-
-
-}
-
-task switchTask(){
-    def x = 16
-    def result = ""
-    switch (x) {
-        case "ok":
-            result = "string"
-            break
-        case 10..19:
-            result = "range"
-            break
-        case Integer:
-            result = "Integer"
-            break
-
-        default:
-            result = "default"
-    }
-
-    assert result == "range"
-}
-
-task listDemo() {
-
-    def s = 's'
-    def ss = " $s"
-    def sss = ''' sss'''
-    def ssss = """ hahah $ss """
-
-    def number = [1, 2, 3]
-    assert number instanceof List
-
-    //as 指定实现类为LinkedList
-    def linkedList = [1,2,3] as LinkedList
-    assert linkedList instanceof LinkedList
-
-
-    //访问
-    def numbers = [1,2,3,4]
-    println("numbers[1] = ${numbers[1]}")
-    println("numbers[-1] = ${numbers[-1]}") //-1 是末尾第一个元素
-    numbers <<5 //列表末尾追加一个元素
-    println("numbers[4] = ${numbers[4]}") //-1 是末尾第一个元素
-    println("numbers[-1] = ${numbers[-1]}") //-1 是末尾第一个元素
-
-
-    def map = ['one':'1','two':'3',3:"three"]
-    println("map[one]=${map['one']}")
-    println("map[3]=${map[3]}")
-
-    def p1 = {println it} //使用隐式参数it的闭包
-
-    def p2 = {its -> println its} //it是一个显式参数
-
-    assert p2 instanceof Closure
-
-    def nameValue = {String name,String value ->
-        println "name=$name,value=$value"
-    }
-
-    //调用闭包，可以当做方法调用，也可以显显式调用call
-    p2("i am p2")
-    nameValue.call("蓝师傅","蓝师傅")
-
-    def filePath = "demo.txt"
-    def file = new File(filePath)
-    //遍历每一行
-    file.eachLine {
-        println it
-    }
-
-    //更简洁，直接读取文本
-    println file.text
-
-    file.withPrintWriter {
-        it.println("写入第1行")
-        it.println("写入第2行")
-    }
-    file.withWriterAppend {
-        it.println("追加写入第3行")
-        it.println("追加写入第4行")
-    }
-    println file.text
-
-}
-
-
-
-//跟java一样
-def add(int a,int b){
-    println(a + b)
-
-}
-
-//参数可以不写类型
-def minux(a,b){
-    return a-b
-}
-
-//定义返回值类型为int类型，可以不写return，最后一行为结果
-int max(a,b){
-    a*b
-}
-
-class Person {
-    String name
-    Integer age = 0
-
-    def increaseAge(years) {
-        this.age += years
-    }
-}
-
-def hello1 = task(hello1){
-    doFirst {
-        println "hello1.doFirst"
-    }
-
-    doLast {
-        println "hello1.doLast"
-    }
-
-}
-
-
-def hello2 = task(hello2,group: BasePlugin.BUILD_GROUP,dependsOn: hello1)
-hello2.doFirst {
-    println "hello2.doFirst"
-}
-hello2.doLast {
-    println "hello2.doLast"
-}
-
-tasks.create(name:"hello3"){
-    doLast {
-        println "hello3.doLast"
-    }
-}
-
-task "task4"  {
-    println "task4"
-}
-
-
+//apply plugin: 'lanshifu.asm.thread'
 
 android {
     compileSdkVersion Version.compileSdkVersion
@@ -310,6 +133,12 @@ android {
 //        }
 //    }
 //}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

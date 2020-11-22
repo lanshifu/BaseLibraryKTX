@@ -77,7 +77,30 @@
             android:id="@+id/btnBanner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="banner"/>
+            android:text="Banner"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="栈的操作"/>
+
+        <Button
+            android:id="@+id/btnPre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上一个"/>
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下一个"/>
+
+        <Button
+            android:id="@+id/btnInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="中间插入"/>
         <Button
             android:id="@+id/btnLeak"
             android:layout_width="wrap_content"
