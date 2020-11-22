@@ -4,22 +4,15 @@ import com.didiglobal.booster.kotlinx.Build
 import com.didiglobal.booster.kotlinx.asIterable
 import com.didiglobal.booster.kotlinx.file
 import com.didiglobal.booster.kotlinx.touch
+import com.didiglobal.booster.transform.ArtifactManager
 import com.didiglobal.booster.transform.TransformContext
-import com.didiglobal.booster.transform.asm.ClassTransformer
-import com.didiglobal.booster.transform.asm.className
-import com.didiglobal.booster.transform.asm.find
-import com.didiglobal.booster.transform.asm.findAll
-import com.didiglobal.booster.transform.asm.isInstanceOf
+import com.didiglobal.booster.transform.asm.*
 import com.google.auto.service.AutoService
 import org.objectweb.asm.Opcodes
-import org.objectweb.asm.tree.ClassNode
-import org.objectweb.asm.tree.InsnNode
-import org.objectweb.asm.tree.LdcInsnNode
-import org.objectweb.asm.tree.MethodInsnNode
-import org.objectweb.asm.tree.MethodNode
-import org.objectweb.asm.tree.TypeInsnNode
+import org.objectweb.asm.tree.*
 import java.io.PrintWriter
 import javax.xml.crypto.dsig.TransformException
+import javax.xml.parsers.SAXParserFactory
 
 /**
  * Represents a class transformer for multithreading optimization
@@ -34,16 +27,18 @@ class ThreadTransformer : ClassTransformer {
     private val applications = mutableSetOf<String>()
 
     override fun onPreTransform(context: TransformContext) {
-        //解析manifest文件，保存类名？
-//        val parser = SAXParserFactory.newInstance().newSAXParser()
-//        context.artifacts.get(ArtifactManager.MERGED_MANIFESTS).forEach { manifest ->
-//            val handler = ComponentHandler()
-//            parser.parse(manifest, handler)
-//            applications.addAll(handler.applications)
-//        }
+        //解析manifest文件，保存Application、和四大组件,为了过滤用
+        val parser = SAXParserFactory.newInstance().newSAXParser()
+        context.artifacts.get(ArtifactManager.MERGED_MANIFESTS).forEach { manifest ->
+            val handler = ComponentHandler()
+            parser.parse(manifest, handler)
+            applications.addAll(handler.applications)
+        }
 //        this.optimizationEnabled = context.getProperty(PROPERTY_OPTIMIZATION_ENABLED, "$DEFAULT_OPTIMIZATION_ENABLED").toBoolean()
         this.optimizationEnabled = true
         this.logger = context.reportsDir.file(Build.ARTIFACT).file(context.name).file("report.txt").touch().printWriter()
+
+        logger.println("applications size = ${applications.size}")
     }
 
     override fun onPostTransform(context: TransformContext) {
@@ -55,28 +50,47 @@ class ThreadTransformer : ClassTransformer {
             // ignore booster instrumented classes
             return klass
         }
-        //todo AsyncTask优化，
+
+        //在 Application 类的 <clinit>() 中调用 ShadowAsyncTask.optimizeAsyncTaskExecutor() 修改 AsyncTask 的线程池参数
         if (this.applications.contains(klass.className)) {
             optimizeAsyncTask(klass)
         }
 
         klass.methods?.forEach { method ->
+            //每个方法的字节码遍历
             method.instructions?.iterator()?.asIterable()?.forEach {
+
+/**
+    L2
+    LINENUMBER 17 L2
+    NEW java/lang/Thread
+    DUP
+    GETSTATIC com/lanshifu/baselibraryktx/threadtest/ThreadTest$run${'$'}1.INSTANCE : Lcom/lanshifu/baselibraryktx/threadtest/ThreadTest$run${'$'}1;
+    CHECKCAST java/lang/Runnable
+    INVOKESPECIAL java/lang/Thread.<init> (Ljava/lang/Runnable;)V
+**/
+
                 when (it.opcode) {
+                    //在线程相关的方法调用前设置名称
                     Opcodes.INVOKEVIRTUAL -> (it as MethodInsnNode).transformInvokeVirtual(context, klass, method)
                     Opcodes.INVOKESTATIC -> (it as MethodInsnNode).transformInvokeStatic(context, klass, method)
                     Opcodes.INVOKESPECIAL -> (it as MethodInsnNode).transformInvokeSpecial(context, klass, method)
+                    // 遇到NEW指令，将 Thread 的构造方法调用替换成对应的ShadowThread的构造方法
                     Opcodes.NEW -> (it as TypeInsnNode).transform(context, klass, method)
+                    // ARETURN，A对应对象，表示返回对象指令，例如 new Thread()
                     Opcodes.ARETURN -> if (method.desc == "L$THREAD;") {
+                        //return 之前插入字节码，调用setThreadName方法
+                        //1.将 String压栈
                         method.instructions.insertBefore(it, LdcInsnNode(
                             makeThreadName(
                                 klass.className
                             )
                         ))
-                        //调用setThreadName
+                        //2.调用 ShadowThread 的setThreadName方法，参数就是String
                         method.instructions.insertBefore(it, MethodInsnNode(Opcodes.INVOKESTATIC,
                             SHADOW_THREAD, "setThreadName", "(Ljava/lang/Thread;Ljava/lang/String;)Ljava/lang/Thread;", false))
-                        logger.println(" + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;): ${klass.name}.${method.name}${method.desc}")
+
+                        logger.println("ARETURN + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;): ${klass.name}.${method.name}${method.desc}")
                     }
                 }
             }
@@ -95,7 +109,7 @@ class ThreadTransformer : ClassTransformer {
                     ))
                     method.instructions.insertBefore(this, MethodInsnNode(Opcodes.INVOKESTATIC,
                         SHADOW_THREAD, "setThreadName", "(Ljava/lang/Thread;Ljava/lang/String;)Ljava/lang/Thread;", false))
-                    logger.println(" + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${this.owner}.${this.name}${this.desc}: ${klass.name}.${method.name}${method.desc}")
+                    logger.println("start + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${this.owner}.${this.name}${this.desc}: ${klass.name}.${method.name}${method.desc}")
                     this.owner = THREAD
                 }
                 "setName(Ljava/lang/String;)V" -> {
@@ -106,7 +120,7 @@ class ThreadTransformer : ClassTransformer {
                     ))
                     method.instructions.insertBefore(this, MethodInsnNode(Opcodes.INVOKESTATIC,
                         SHADOW_THREAD, "makeThreadName", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", false))
-                    logger.println(" + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${this.owner}.${this.name}${this.desc}: ${klass.name}.${method.name}${method.desc}")
+                    logger.println("setName + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${this.owner}.${this.name}${this.desc}: ${klass.name}.${method.name}${method.desc}")
                     this.owner = THREAD
                 }
             }
@@ -275,7 +289,7 @@ class ThreadTransformer : ClassTransformer {
                     insertBefore(init, MethodInsnNode(Opcodes.INVOKESTATIC,
                         SHADOW_THREAD, "makeThreadName", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", false))
                 }
-                logger.println(" + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${owner}.${name}${desc}: ${klass.name}.${method.name}${method.desc}")
+                logger.println("transformHandlerThreadInvokeSpecial + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${owner}.${name}${desc}: ${klass.name}.${method.name}${method.desc}")
             }
             // HandlerThread(String, int)
             "(Ljava/lang/String;I)V" -> {
@@ -294,7 +308,7 @@ class ThreadTransformer : ClassTransformer {
                     // ..., priority, name => ..., name, priority
                     insertBefore(init, InsnNode(Opcodes.SWAP))
                 }
-                logger.println(" + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${owner}.${name}${desc}: ${klass.name}.${method.name}${method.desc}")
+                logger.println("transformHandlerThreadInvokeSpecial + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${owner}.${name}${desc}: ${klass.name}.${method.name}${method.desc}")
             }
         }
     }
@@ -314,8 +328,8 @@ class ThreadTransformer : ClassTransformer {
                 ))
                 val r = this.desc.lastIndexOf(')')
                 val desc = "${this.desc.substring(0, r)}Ljava/lang/String;${this.desc.substring(r)}"
-                logger.println(" + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${this.owner}.${this.name}${this.desc}: ${klass.name}.${method.name}${method.desc}")
-                logger.println(" * ${this.owner}.${this.name}${this.desc} => ${this.owner}.${this.name}$desc: ${klass.name}.${method.name}${method.desc}")
+                logger.println("transformThreadInvokeSpecial + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${this.owner}.${this.name}${this.desc}: ${klass.name}.${method.name}${method.desc}")
+                logger.println("transformThreadInvokeSpecial * ${this.owner}.${this.name}${this.desc} => ${this.owner}.${this.name}$desc: ${klass.name}.${method.name}${method.desc}")
                 this.desc = desc
             }
             // Thread(String)
@@ -335,7 +349,7 @@ class ThreadTransformer : ClassTransformer {
                     insertBefore(init, MethodInsnNode(Opcodes.INVOKESTATIC,
                         SHADOW_THREAD, "makeThreadName", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", false))
                 }
-                logger.println(" + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${this.owner}.${this.name}${this.desc}: ${klass.name}.${method.name}${method.desc}")
+                logger.println("transformThreadInvokeSpecial + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${this.owner}.${this.name}${this.desc}: ${klass.name}.${method.name}${method.desc}")
             }
             // Thread(ThreadGroup, Runnable, String, long)
             "(Ljava/lang/ThreadGroup;Ljava/lang/Runnable;Ljava/lang/String;J)V" -> {
@@ -372,7 +386,7 @@ class ThreadTransformer : ClassTransformer {
                     // ..., name, stackSize, name => ..., name, stackSize
                     insertBefore(init, InsnNode(Opcodes.POP))
                 }
-                logger.println(" + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${this.owner}.${this.name}${this.desc}: ${klass.name}.${method.name}${method.desc}")
+                logger.println("transformThreadInvokeSpecial + $SHADOW_THREAD.makeThreadName(Ljava/lang/String;Ljava/lang/String;) => ${this.owner}.${this.name}${this.desc}: ${klass.name}.${method.name}${method.desc}")
             }
         }
     }
@@ -387,7 +401,7 @@ class ThreadTransformer : ClassTransformer {
                     "defaultThreadFactory" -> {
                         val r = this.desc.lastIndexOf(')')
                         val desc = "${this.desc.substring(0, r)}Ljava/lang/String;${this.desc.substring(r)}"
-                        logger.println(" * ${this.owner}.${this.name}${this.desc} => $SHADOW_EXECUTORS.${this.name}$desc: ${klass.name}.${method.name}${method.desc}")
+                        logger.println("${this.name} * ${this.owner}.${this.name}${this.desc} => $SHADOW_EXECUTORS.${this.name}$desc: ${klass.name}.${method.name}${method.desc}")
                         this.owner =
                             SHADOW_EXECUTORS
                         this.desc = desc
@@ -406,7 +420,7 @@ class ThreadTransformer : ClassTransformer {
                         val r = this.desc.lastIndexOf(')')
                         val name = if (optimizationEnabled) this.name.replace("new", "newOptimized") else this.name
                         val desc = "${this.desc.substring(0, r)}Ljava/lang/String;${this.desc.substring(r)}"
-                        logger.println(" * ${this.owner}.${this.name}${this.desc} => $SHADOW_EXECUTORS.$name$desc: ${klass.name}.${method.name}${method.desc}")
+                        logger.println("${this.name} * ${this.owner}.${this.name}${this.desc} => $SHADOW_EXECUTORS.$name$desc: ${klass.name}.${method.name}${method.desc}")
                         this.owner =
                             SHADOW_EXECUTORS
                         this.name = name
@@ -449,21 +463,28 @@ class ThreadTransformer : ClassTransformer {
             // e.g. android/os/HandlerThread => com/didiglobal/booster/instrument/ShadowHandlerThread
             this.desc = type
 
+            //替换构造，相当于创建Thread的子类 ShadowThread，构造增加一个String参数
             // replace the constructor of original type with the constructor of shadowed type
             // e.g. android/os/HandlerThread(Ljava/lang/String;) => com/didiglobal/booster/instrument/ShadowHandlerThread(Ljava/lang/String;Ljava/lang/String;)
             val rp = init.desc.lastIndexOf(')')
             init.apply {
+                //替换owner，也就是把Thread替换成ShadowThread
                 owner = type
+                //方法描述要增加一个String参数
                 desc = "${desc.substring(0, rp)}Ljava/lang/String;${if (optimizable) "Z" else ""}${desc.substring(rp)}"
             }
+
+            //增加一个参数，将线程名压栈
             method.instructions.insertBefore(init, LdcInsnNode(
                 makeThreadName(
                     klass.className
                 )
             ))
+            //调用构造
             if (optimizable) {
                 method.instructions.insertBefore(init, LdcInsnNode(optimizationEnabled))
             }
+            //如果是false呢？？？
         } ?: throw TransformException("`invokespecial $desc` not found: ${klass.name}.${method.name}${method.desc}")
     }
 

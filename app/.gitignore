@@ -1,4 +1,4 @@
-/build
+#/build
 ### Android template
 # Built application files
 *.apk
@@ -19,7 +19,7 @@ release/
 
 # Gradle files
 .gradle/
-build/
+#build/
 
 # Local configuration file (sdk path, etc)
 local.properties
