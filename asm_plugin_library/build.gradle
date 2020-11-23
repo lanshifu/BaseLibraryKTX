@@ -6,8 +6,8 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 
 dependencies {
-    compileOnly project(':booster-android-api')
-    implementation project(':booster-android-instrument')
+    implementation files('src/main/libs/booster-android-api.jar')
+    implementation files('src/main/libs/booster-android-instrument.jar')
 
 }
 
