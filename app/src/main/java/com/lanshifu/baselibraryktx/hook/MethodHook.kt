@@ -14,7 +14,7 @@ object MethodHook {
     val TAG = "MethodHook"
 
     fun hookThread() {
-        if (!BuildConfig.DEBUG){
+        if (true){
             return
         }
 

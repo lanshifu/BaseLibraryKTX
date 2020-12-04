@@ -24,4 +24,9 @@
 
     <string name="test">测试</string>
     <string name="preloadWebview">预加载</string>
+
+    <string name="square_red_name">square_red</string>
+    <string name="square_blue_name">square_blue</string>
+    <string name="square_green_name">square_green</string>
+    <string name="transition_reveal1">transition_reveal1</string>
 </resources>

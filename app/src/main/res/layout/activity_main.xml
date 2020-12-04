@@ -107,6 +107,12 @@
             android:layout_height="wrap_content"
             android:text="内存蟹柳"/>
 
+        <Button
+            android:id="@+id/btnAnim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="动画"/>
+
         <com.airbnb.lottie.LottieAnimationView
             android:visibility="gone"
             android:id="@+id/lottieLikeView"

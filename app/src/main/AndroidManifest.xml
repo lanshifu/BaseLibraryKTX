@@ -39,6 +39,8 @@
         <activity android:name=".record.RecordActivity" />
         <activity android:name=".banner.BannerActivity" />
         <activity android:name=".LeakActivity" />
+        <activity android:name=".animations.SharedElementActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 
 </manifest>

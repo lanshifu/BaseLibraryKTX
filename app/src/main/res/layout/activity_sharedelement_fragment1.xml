@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnPre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:transitionName="btnPre"
+            android:text="上一个"/>
+        <Button
+            android:layout_centerHorizontal="true"
+            android:id="@+id/btnPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:transitionName="btnPlay"
+            android:text="播放"/>
+
+        <Button
+            android:layout_alignParentEnd="true"
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:transitionName="btnNext"
+            android:text="下一个"/>
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/square_blue"
+        style="@style/MaterialAnimations.Icon.Big"
+        android:src="@drawable/circle_24dp"
+        android:transitionName="square_blue" />
+
+    <TextView
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fragment 1" />
+
+    <TextView
+        style="@style/MaterialAnimations.Text.Body"
+        android:text="Blue circle is a shared element between MainActivity and this fragment." />
+
+
+    <Button
+        android:id="@+id/sample2_button1"
+        android:text="Next (Overlap transition = false)"
+        style="@style/MaterialAnimations.Button" />
+
+    <Button
+        android:id="@+id/sample2_button2"
+        android:text="Next (Overlap transition =  true)"
+        style="@style/MaterialAnimations.Button" />
+
+</LinearLayout>

@@ -7,6 +7,7 @@ import android.graphics.drawable.AnimationDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.lanshifu.baselibraryktx.animations.SharedElementActivity
 import com.lanshifu.baselibraryktx.banner.BannerActivity
 import com.lanshifu.baselibraryktx.fragmentstatus.TestFragment
 import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
@@ -89,6 +90,10 @@ class MainActivity : BaseVMActivity<MainVM>() {
 
         btnLeak.setOnClickListener {
             startActivity(Intent(this, LeakActivity::class.java))
+        }
+
+        btnAnim.setOnClickListener {
+            startActivity(Intent(this, SharedElementActivity::class.java))
         }
 
 

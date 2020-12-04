@@ -18,7 +18,7 @@ uploadArchives {
     repositories {
         mavenDeployer {
             repository(url: uri('../local_repo'))
-            pom.version = "1.0.0"
+            pom.version = "1.0.1"
             pom.artifactId = "asm_plugin_library"
             pom.groupId = "lanshifu.plugin.library"
             pom.name = "asm_plugin_library"

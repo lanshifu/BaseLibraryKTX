@@ -5,12 +5,6 @@ package com.lanshifu.baselibraryktx;
  * @date 2020/8/22
  */
 public class Test {
-    public static int add(int a) {
-        int b = 2;
-        int c = 3;
-        return a + b + c;
-    }
-
     public static void methodA() {
         int a = 1;
         methodB();
@@ -22,8 +16,17 @@ public class Test {
         methodC();
     }
 
-    public static void methodC(){
+    public static Obj methodC(){
+        Obj obj = new Obj();
+        obj.doSomeThing();
+        return obj;
+    }
 
+    static class Obj{
+
+        String doSomeThing(){
+            return "";
+        }
     }
 
 }
