@@ -22,8 +22,8 @@ buildscript {
 
         classpath "com.codoon.threadtracker:threadtracker-plugin:1.1.0"
 
-        classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
-        classpath 'lanshifu.thread.plugin:asm_thread_plugin:1.0.1'
+//        classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
+        classpath 'lanshifu.thread.plugin:asm_thread_plugin:1.0.2'
     }
 }
 

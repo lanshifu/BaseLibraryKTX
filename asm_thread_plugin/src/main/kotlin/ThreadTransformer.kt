@@ -7,7 +7,6 @@ import com.didiglobal.booster.kotlinx.touch
 import com.didiglobal.booster.transform.ArtifactManager
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.*
-import com.google.auto.service.AutoService
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.tree.*
 import java.io.PrintWriter
@@ -19,7 +18,7 @@ import javax.xml.parsers.SAXParserFactory
  *
  * @author johnsonlee
  */
-@AutoService(ClassTransformer::class)
+//@AutoService(ClassTransformer::class)
 class ThreadTransformer : ClassTransformer {
 
     private lateinit var logger: PrintWriter
@@ -507,7 +506,7 @@ class ThreadTransformer : ClassTransformer {
 
 }
 
-private fun makeThreadName(name: String) = "$MARK-lanshifu-$name"
+private fun makeThreadName(name: String) = "$MARK lizhi-$name"
 
 private val ClassNode.defaultClinit: MethodNode
     get() = MethodNode(Opcodes.ACC_STATIC, "<clinit>", "()V", null, null).apply {

@@ -13,23 +13,24 @@
             android:id="@+id/btnPre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:transitionName="btnPre"
-            android:text="上一个"/>
+            android:text="上一个"
+            android:transitionName="btnPre" />
+
         <Button
-            android:layout_centerHorizontal="true"
             android:id="@+id/btnPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:transitionName="btnPlay"
-            android:text="播放"/>
+            android:layout_centerHorizontal="true"
+            android:text="播放"
+            android:transitionName="btnPlay" />
 
         <Button
-            android:layout_alignParentEnd="true"
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:transitionName="btnNext"
-            android:text="下一个"/>
+            android:layout_alignParentEnd="true"
+            android:text="下一个"
+            android:transitionName="btnNext" />
 
     </RelativeLayout>
 
@@ -53,12 +54,27 @@
 
     <Button
         android:id="@+id/sample2_button1"
-        android:text="Next (Overlap transition = false)"
-        style="@style/MaterialAnimations.Button" />
+        style="@style/MaterialAnimations.Button"
+        android:text="Next (Overlap transition = false)" />
 
     <Button
         android:id="@+id/sample2_button2"
-        android:text="Next (Overlap transition =  true)"
-        style="@style/MaterialAnimations.Button" />
+        style="@style/MaterialAnimations.Button"
+        android:text="Next (Overlap transition =  true)" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tvTitle"
+        android:transitionName="tvTitle" />
+
+    <TextView
+        android:id="@+id/tvDuration"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:transitionName="tvDuration" />
 
 </LinearLayout>

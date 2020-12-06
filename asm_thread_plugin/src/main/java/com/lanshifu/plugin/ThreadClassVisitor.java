@@ -1,22 +1,21 @@
 package com.lanshifu.plugin;
 
-import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.ClassNode;
 
 /**
  * ClassVisitor，负责访问.class文件中各个元素，还记得上一课时我们介绍的.class文件结构吗？
  * ClassVisitor就是用来解析这些文件结构的，当解析到某些特定结构时（比如类变量、方法），
  * 它会自动调用内部相应的 FieldVisitor 或者 MethodVisitor 的方法，进一步解析或者修改 .class 文件内容
  */
-public class ThreadClassVisitor extends ClassVisitor {
+public class ThreadClassVisitor extends ClassNode {
     private String className;
     private String superName;
 
 
-    public ThreadClassVisitor(ClassVisitor cv) {
-        super(Opcodes.ASM5, cv);
-    }
+//    public ThreadClassVisitor(ClassVisitor cv) {
+//        super(Opcodes.ASM5, cv);
+//    }
 
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
@@ -37,6 +36,7 @@ public class ThreadClassVisitor extends ClassVisitor {
             return new ThreadMethodVisitor(mv, className, name);
         }
 
+
         return mv;
     }
 
@@ -44,4 +44,5 @@ public class ThreadClassVisitor extends ClassVisitor {
     public void visitEnd() {
         super.visitEnd();
     }
+
 }

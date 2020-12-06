@@ -2,11 +2,11 @@ package com.lanshifu.plugin
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.utils.FileUtils
-import com.lanshifu.plugin.ThreadClassVisitor
 import groovy.io.FileType
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.ClassWriter
+import org.objectweb.asm.tree.ClassNode
 
 
 public class ThreadTransform extends Transform {
@@ -61,7 +61,7 @@ public class ThreadTransform extends Transform {
                         //ASM 就会自动计算本地变量表和操作数栈
                         ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
                         //访问class文件相应的内容，解析到某一个结构就会通知到ClassVisitor的相应方法
-                        ClassVisitor classVisitor = new ThreadClassVisitor(classWriter)
+                        ClassVisitor classVisitor = new ClassNode()
                         //依次调用 ClassVisitor接口的各个方法
                         classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES)
                         //toByteArray方法会将最终修改的字节码以 byte 数组形式返回。
@@ -82,4 +82,6 @@ public class ThreadTransform extends Transform {
             }
         }
     }
+
+
 }

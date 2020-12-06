@@ -13,13 +13,13 @@ import com.lanshifu.baselibraryktx.fragmentstatus.TestFragment
 import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
 import com.lanshifu.baselibraryktx.list.DemoListActivity
 import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
+import com.lanshifu.baselibraryktx.native.NativeClass
 import com.lanshifu.baselibraryktx.record.RecordActivity
 import com.lanshifu.baselibraryktx.shell.ShellTest
 import com.lanshifu.baselibraryktx.threadtest.ThreadTest
 import com.lanshifu.lib.base.BaseVMActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
-import com.lanshifu.lib.ext.logi
 import com.lanshifu.lib.ext.reverseVisibility
 import com.lanshifu.lib.ext.toast
 import kotlinx.android.synthetic.main.activity_login.mBtnLogin
@@ -27,9 +27,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.String
-import kotlin.concurrent.thread
 import java.util.*
-import java.util.concurrent.*
+import java.util.concurrent.LinkedBlockingDeque
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : BaseVMActivity<MainVM>() {
@@ -75,6 +76,9 @@ class MainActivity : BaseVMActivity<MainVM>() {
 //            CrashReport.testNativeCrash()
 //            CrashReport.testJavaCrash()
 //            NativeClass.crash()
+            Thread{
+                NativeClass.crash()
+            }.start()
         }
 
         btnList.setOnClickListener {

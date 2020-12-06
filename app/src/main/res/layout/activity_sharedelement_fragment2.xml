@@ -34,7 +34,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/square_blue"
             style="@style/MaterialAnimations.Icon.Small"
@@ -75,6 +75,22 @@
 
 
     </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:transitionName="tvTitle"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tvTitle" />
+
+    <TextView
+        android:transitionName="tvDuration"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDuration" />
 
 
 </LinearLayout>

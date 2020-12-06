@@ -27,9 +27,18 @@ abstract class BaseVMFragment<VM : BaseViewModel<*>> : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         "onViewCreated".logd()
         initView()
-        initData()
-        startObserve()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    var isStart = false
+    override fun onResume() {
+        super.onResume()
+        if (!isStart){
+            initData()
+            isStart = true
+            startObserve()
+        }
+
     }
 
     open fun startObserve() {

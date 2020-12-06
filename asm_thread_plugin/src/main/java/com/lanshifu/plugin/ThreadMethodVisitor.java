@@ -71,6 +71,7 @@ public class ThreadMethodVisitor extends MethodVisitor {
 
  */
 
+
         mv.visitVarInsn(ALOAD, 1);
         mv.visitMethodInsn(INVOKESTATIC, "com/lanshifu/asm_plugin_library/FastClickUtil",
                 "canClick", "(Landroid/view/View;)Z", false);
