@@ -19,7 +19,7 @@ object Version {
 
     const val constraintlayout = "1.1.3"
 
-    const val kotlin_version = "1.3.41"
+    const val kotlin_version = "1.3.50"
 
     const val core_ktx = "1.2.0"
     const val kotlinx_coroutines_android = "1.3.0"

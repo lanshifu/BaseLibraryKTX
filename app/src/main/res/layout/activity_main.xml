@@ -113,6 +113,18 @@
             android:layout_height="wrap_content"
             android:text="动画"/>
 
+        <Button
+            android:id="@+id/btnPermission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="权限库"/>
+
+        <Button
+            android:id="@+id/btnFps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="帧率检测"/>
+
         <com.airbnb.lottie.LottieAnimationView
             android:visibility="gone"
             android:id="@+id/lottieLikeView"
