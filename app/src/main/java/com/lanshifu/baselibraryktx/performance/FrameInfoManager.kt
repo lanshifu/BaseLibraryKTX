@@ -2,7 +2,6 @@ package com.lanshifu.baselibraryktx.performance
 
 import android.os.Handler
 import android.view.Choreographer
-import com.didichuxing.doraemonkit.config.DokitMemoryConfig
 
 /**
  * @author lanxiaobin
@@ -14,28 +13,29 @@ object FrameInfoManager {
     private const val FPS_SAMPLING_TIME = 1000L
 
     var frameCallback: (frame: Int) -> Unit = {}
+    var fpsOpen = false
 
 
     private val mRateRunnable: FrameRateRunnable = FrameRateRunnable()
 
 
     fun startMonitorFrameInfo() {
-        DokitMemoryConfig.FPS_STATUS = true
+        fpsOpen = true
         //开启定时任务
         mMainHandler.postDelayed(mRateRunnable, FPS_SAMPLING_TIME)
         Choreographer.getInstance().postFrameCallback(mRateRunnable)
     }
 
     fun stopMonitorFrameInfo() {
-        DokitMemoryConfig.FPS_STATUS = false
+        fpsOpen = false
         Choreographer.getInstance().removeFrameCallback(mRateRunnable)
+        mRateRunnable.totalFramesPerSecond = 0
         mMainHandler.removeCallbacks(mRateRunnable)
         frameCallback = {}
     }
 
     class FrameRateRunnable : Runnable, Choreographer.FrameCallback {
-
-        private var totalFramesPerSecond = 0
+        var totalFramesPerSecond = 0
 
         override fun run() {
             frameCallback.invoke(totalFramesPerSecond)

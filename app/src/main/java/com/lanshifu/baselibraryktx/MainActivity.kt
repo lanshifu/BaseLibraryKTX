@@ -16,6 +16,7 @@ import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
 import com.lanshifu.baselibraryktx.list.DemoListActivity
 import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
 import com.lanshifu.baselibraryktx.native.NativeClass
+import com.lanshifu.baselibraryktx.performance.CpuInfoManager
 import com.lanshifu.baselibraryktx.performance.FrameInfoManager
 import com.lanshifu.baselibraryktx.record.RecordActivity
 import com.lanshifu.baselibraryktx.shell.ShellTest
@@ -127,7 +128,27 @@ class MainActivity : BaseVMActivity<MainVM>() {
             FrameInfoManager.frameCallback = {
                 btnFps.text = "帧率：$it"
             }
-            FrameInfoManager.startMonitorFrameInfo()
+            if (FrameInfoManager.fpsOpen){
+                FrameInfoManager.stopMonitorFrameInfo()
+                btnFps.text = "帧率检测"
+            } else {
+                FrameInfoManager.startMonitorFrameInfo()
+            }
+
+        }
+
+        btnCpu.setOnClickListener {
+            CpuInfoManager.cpuCallback = {
+                btnCpu.post {
+                    btnCpu.text = "cpu:$it"
+                }
+            }
+            if (CpuInfoManager.isStart){
+                CpuInfoManager.stop()
+                btnCpu.text = "cpu检测"
+            } else {
+                CpuInfoManager.start()
+            }
 
         }
 
@@ -255,5 +276,6 @@ class MainActivity : BaseVMActivity<MainVM>() {
     override fun onDestroy() {
         super.onDestroy()
         FrameInfoManager.stopMonitorFrameInfo()
+        CpuInfoManager.stop()
     }
 }
