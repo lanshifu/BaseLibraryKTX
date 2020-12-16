@@ -18,6 +18,7 @@ import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
 import com.lanshifu.baselibraryktx.native.NativeClass
 import com.lanshifu.baselibraryktx.performance.CpuInfoManager
 import com.lanshifu.baselibraryktx.performance.FrameInfoManager
+import com.lanshifu.baselibraryktx.performance.MemoryInfoManager
 import com.lanshifu.baselibraryktx.record.RecordActivity
 import com.lanshifu.baselibraryktx.shell.ShellTest
 import com.lanshifu.baselibraryktx.threadtest.ThreadTest
@@ -140,7 +141,7 @@ class MainActivity : BaseVMActivity<MainVM>() {
         btnCpu.setOnClickListener {
             CpuInfoManager.cpuCallback = {
                 btnCpu.post {
-                    btnCpu.text = "cpu:$it"
+                    btnCpu.text = "cpu:$it %"
                 }
             }
             if (CpuInfoManager.isStart){
@@ -148,6 +149,21 @@ class MainActivity : BaseVMActivity<MainVM>() {
                 btnCpu.text = "cpu检测"
             } else {
                 CpuInfoManager.start()
+            }
+
+        }
+
+        btnMemory.setOnClickListener {
+            MemoryInfoManager.memoryCallback = {
+                btnMemory.post {
+                    btnMemory.text = "内存:$it M"
+                }
+            }
+            if (MemoryInfoManager.isStart){
+                MemoryInfoManager.stop()
+                btnMemory.text = "内存检测"
+            } else {
+                MemoryInfoManager.start()
             }
 
         }

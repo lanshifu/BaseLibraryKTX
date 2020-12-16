@@ -25,7 +25,7 @@ object CpuInfoManager {
 
     private var mLastCpuRate: Float = 1.0f
 
-    var cpuCallback: (frame: Float) -> Unit = {}
+    var cpuCallback: (frame: Int) -> Unit = {}
 
     private val MSG_CPU: Int = 1
 
@@ -34,7 +34,7 @@ object CpuInfoManager {
     /**
      * 信息采集时间 内存和cpu
      */
-    private const val NORMAL_SAMPLING_TIME = 500L
+    private const val NORMAL_SAMPLING_TIME = 1000L
 
 
     fun start() {
@@ -66,7 +66,7 @@ object CpuInfoManager {
         } else {
             mLastCpuRate = getCPUData()
         }
-        cpuCallback.invoke(mLastCpuRate)
+        cpuCallback.invoke(mLastCpuRate.toInt())
         logd("mLastCpuRate=$mLastCpuRate")
     }
 

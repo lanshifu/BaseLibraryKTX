@@ -130,6 +130,12 @@
             android:layout_height="wrap_content"
             android:text="Cpu检测"/>
 
+        <Button
+            android:id="@+id/btnMemory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="内存检测"/>
+
         <com.airbnb.lottie.LottieAnimationView
             android:visibility="gone"
             android:id="@+id/lottieLikeView"

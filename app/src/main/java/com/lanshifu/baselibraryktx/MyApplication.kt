@@ -1,5 +1,6 @@
 package com.lanshifu.baselibraryktx
 
+import android.content.Context
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.lanshifu.baselibraryktx.dokit.BaiduDokit
 import com.lanshifu.baselibraryktx.dokit.EnvSwitchKit
@@ -13,8 +14,14 @@ import okhttp3.Interceptor
 
 class MyApplication : BaseApplication() {
 
+    companion object {
+        var context:Context? = null
+
+    }
+
     override fun onCreate() {
         super.onCreate()
+        context = this
         BlurKit.init(this)
 
 //        XCrashTask.run(this)
