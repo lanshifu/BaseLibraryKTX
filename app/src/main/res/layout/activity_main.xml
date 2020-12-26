@@ -136,6 +136,12 @@
             android:layout_height="wrap_content"
             android:text="内存检测"/>
 
+        <Button
+            android:id="@+id/btnBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="卡顿检测"/>
+
         <com.airbnb.lottie.LottieAnimationView
             android:visibility="gone"
             android:id="@+id/lottieLikeView"

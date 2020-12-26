@@ -29,7 +29,7 @@ object Version {
     const val BaseRecyclerViewAdapterHelper = "2.9.50"
     const val smart_refresh_layout = "2.0.0"
 
-    const val doraemonkit = "3.1.5"
+    const val doraemonkit = "3.3.5"
 
     const val rxhttp = "2.2.0"
 }
@@ -58,9 +58,9 @@ object Deps {
     val smart_refresh_layout_header_material = "com.scwang.smart:refresh-header-material:${Version.smart_refresh_layout}"
     val smart_refresh_layout_footer_classics = "com.scwang.smart:refresh-footer-classics:${Version.smart_refresh_layout}"
 
-    val doraemonkit_debug = "com.didichuxing.doraemonkit:doraemonkit:${Version.doraemonkit}"
-    val doraemonkit_release = "com.didichuxing.doraemonkit:doraemonkit-no-op:${Version.doraemonkit}"
-    val doraemonkit_leakcanary = "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${Version.doraemonkit}"
+    val doraemonkit_debug = "com.didichuxing.doraemonkit:dokitx:${Version.doraemonkit}"
+    val doraemonkit_release = "com.didichuxing.doraemonkit:dokitx-no-op:${Version.doraemonkit}"
+    val doraemonkit_leakcanary = "com.didichuxing.doraemonkit:dokitx-leakcanary:${Version.doraemonkit}"
 
     val mmkv = "com.tencent:mmkv-static:1.1.1"
 

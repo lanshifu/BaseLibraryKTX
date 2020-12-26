@@ -16,6 +16,7 @@ import com.lanshifu.baselibraryktx.gift.GiftSurfaceViewActivity
 import com.lanshifu.baselibraryktx.list.DemoListActivity
 import com.lanshifu.baselibraryktx.mvvm.login.LoginActivity
 import com.lanshifu.baselibraryktx.native.NativeClass
+import com.lanshifu.baselibraryktx.performance.BlockMonitorManager
 import com.lanshifu.baselibraryktx.performance.CpuInfoManager
 import com.lanshifu.baselibraryktx.performance.FrameInfoManager
 import com.lanshifu.baselibraryktx.performance.MemoryInfoManager
@@ -43,6 +44,7 @@ class MainActivity : BaseVMActivity<MainVM>() {
 
     var testFragment: TestFragment? = null
     val handler = LifecycleHandler(this)
+    var blockCount = 0
 
     var excutor = ThreadPoolExecutor(2,2,60,TimeUnit.SECONDS,LinkedBlockingDeque())
 
@@ -164,6 +166,22 @@ class MainActivity : BaseVMActivity<MainVM>() {
                 btnMemory.text = "内存检测"
             } else {
                 MemoryInfoManager.start()
+            }
+
+        }
+
+        btnBlock.setOnClickListener {
+            BlockMonitorManager.blockCallback = {
+                btnMemory.post {
+                    btnBlock.text = "卡顿次数:${++blockCount} "
+                }
+            }
+            if (BlockMonitorManager.isStart){
+                BlockMonitorManager.stop()
+                btnBlock.text = "卡顿检测"
+            } else {
+                BlockMonitorManager.start()
+                btnBlock.text = "卡顿次数：0"
             }
 
         }

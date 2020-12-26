@@ -54,7 +54,6 @@ dependencies {
 
     debugApi Deps.doraemonkit_debug
     releaseApi Deps.doraemonkit_release
-    debugApi Deps.doraemonkit_leakcanary
 
     api Deps.constraintlayout
 
