@@ -45,7 +45,7 @@ object BlockMonitorManager {
     }
 
 
-    class PrinterImpl : Printer{
+    class PrinterImpl : Printer {
 
         var mPrintingStarted = false
         private var mStartTime: Long = 0
@@ -55,7 +55,7 @@ object BlockMonitorManager {
 
             //通过Handler 处理消息前后时间差，能确定执行耗时，来判断是否卡顿
 
-            if (!mPrintingStarted){
+            if (!mPrintingStarted) {
                 //第一次
                 mStartTime = System.currentTimeMillis()
                 mStartThreadTime = SystemClock.currentThreadTimeMillis()
@@ -66,7 +66,7 @@ object BlockMonitorManager {
                 val endTime = System.currentTimeMillis()
                 val endThreadTime = SystemClock.currentThreadTimeMillis()
 
-                if (isBlock(endTime)){
+                if (isBlock(endTime)) {
                     var threadStackEntries =
                         mStackDumpper.getThreadStackEntries(mStartTime, endTime)
 
@@ -81,7 +81,7 @@ object BlockMonitorManager {
 
         }
 
-        fun isBlock(endTime:Long):Boolean {
+        fun isBlock(endTime: Long): Boolean {
             return endTime - mStartTime > BLOCK_THRESHOLD_MILLIS
         }
 
@@ -99,12 +99,13 @@ object BlockMonitorManager {
         private var mFilterCache: String = ""
         private val TIME_FORMATTER =
             SimpleDateFormat("MM-dd HH:mm:ss.SSS", Locale.CHINESE)
+
         init {
 
 
         }
 
-        fun startDump(){
+        fun startDump() {
 
             if (mStackThread == null) {
                 mStackThread = object : HandlerThread("BlockMonitor") {
@@ -137,7 +138,7 @@ object BlockMonitorManager {
             val result = ArrayList<String>()
             synchronized(sStackMap) {
                 for (entryTime in sStackMap.keys) {
-                    if (startTime < entryTime && entryTime < endTime) {
+                    if (entryTime in (startTime + 1) until endTime) {
                         result.add(
                             TIME_FORMATTER.format(entryTime)
                                     + SEPARATOR
@@ -149,12 +150,12 @@ object BlockMonitorManager {
             }
             return result
         }
+
         private val mRunnable: Runnable = object : Runnable {
             override fun run() {
                 dumpInfo()
                 if (mRunning.get()) {
-                    mStackHandler?.postDelayed(this, DEFAULT_SAMPLE_INTERVAL
-                    )
+                    mStackHandler?.postDelayed(this, DEFAULT_SAMPLE_INTERVAL)
                 }
             }
 

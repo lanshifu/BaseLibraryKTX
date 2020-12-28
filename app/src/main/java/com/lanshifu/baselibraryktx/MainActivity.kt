@@ -22,6 +22,7 @@ import com.lanshifu.baselibraryktx.performance.FrameInfoManager
 import com.lanshifu.baselibraryktx.performance.MemoryInfoManager
 import com.lanshifu.baselibraryktx.record.RecordActivity
 import com.lanshifu.baselibraryktx.shell.ShellTest
+import com.lanshifu.baselibraryktx.slidebar.SlideBarActivity
 import com.lanshifu.baselibraryktx.threadtest.ThreadTest
 import com.lanshifu.lib.base.BaseVMActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
@@ -106,6 +107,10 @@ class MainActivity : BaseVMActivity<MainVM>() {
 
         btnAnim.setOnClickListener {
             startActivity(Intent(this, SharedElementActivity::class.java))
+        }
+
+        btnSlidBar.setOnClickListener {
+            startActivity(Intent(this, SlideBarActivity::class.java))
         }
 
         btnPermission.setOnClickListener {
