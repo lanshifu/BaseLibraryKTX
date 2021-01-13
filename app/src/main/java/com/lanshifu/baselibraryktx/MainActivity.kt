@@ -27,7 +27,6 @@ import com.lanshifu.baselibraryktx.threadtest.ThreadTest
 import com.lanshifu.lib.base.BaseVMActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
-import com.lanshifu.lib.ext.reverseVisibility
 import com.lanshifu.lib.ext.toast
 import com.permissionx.guolindev.PermissionX
 import kotlinx.android.synthetic.main.activity_login.mBtnLogin
@@ -69,9 +68,16 @@ class MainActivity : BaseVMActivity<MainVM>() {
             startActivity(Intent(this, LoginActivity::class.java))
         }
         btnBlurLayout.setOnClickListener {
-            blurLayout.alpha = 1f
-            blurLayout.reverseVisibility()
+//            blurLayout.alpha = 1f
+//            blurLayout.reverseVisibility()
+
+            mViewModel.blur(flexBoxLayout)
+
         }
+
+        mViewModel.blurBitmap.observe(this, Observer {
+            ivBg.setImageBitmap(it)
+        })
         btnGift.setOnClickListener {
             startActivity(Intent(this, GiftSurfaceViewActivity::class.java))
         }

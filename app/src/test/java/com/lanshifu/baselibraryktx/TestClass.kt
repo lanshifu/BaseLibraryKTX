@@ -27,4 +27,19 @@ object TestClass {
         } while (true)
         return buf.toString()
     }
+
+    fun quickSort(array: ArrayList<Int>) :ArrayList<Int>{
+        if (array.size <= 1){
+            return array
+        }
+
+        var middle = array[0]
+        var leftArray = array.filter { it<middle }
+        var rightArray = array.filter { it>middle }
+        var resultArray = ArrayList<Int>(leftArray.size + 1 + rightArray.size)
+        resultArray.addAll(quickSort(leftArray as ArrayList<Int>))
+        resultArray.add(middle)
+        resultArray.addAll(quickSort(rightArray as ArrayList<Int>))
+        return resultArray
+    }
 }

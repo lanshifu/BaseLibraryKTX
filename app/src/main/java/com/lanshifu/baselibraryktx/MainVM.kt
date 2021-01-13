@@ -1,12 +1,16 @@
 package com.lanshifu.baselibraryktx
 
+import android.graphics.Bitmap
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.lanshifu.lib.base.BaseViewModel
+import io.alterac.blurkit.BlurKit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * @author lanxiaobin
@@ -16,6 +20,7 @@ class MainVM : BaseViewModel<Any>() {
 
 
     var smsCode = MutableLiveData<String>()
+    var blurBitmap = MutableLiveData<Bitmap>()
 
     fun getSmsCode(phone: String) {
 
@@ -36,6 +41,17 @@ class MainVM : BaseViewModel<Any>() {
                     // 在这里 更新LiveData 的值来显示到UI
                     smsCode.value = it
                 }
+        }
+    }
+
+    fun blur(blurView:View){
+        viewModelScope.launch(Dispatchers.Default) {
+            var bitmap = BlurKit.getInstance().blur(blurView,25)
+            if (bitmap != null) {
+                withContext(Dispatchers.Main) {
+                    blurBitmap.value = bitmap
+                }
+            }
         }
     }
 }
