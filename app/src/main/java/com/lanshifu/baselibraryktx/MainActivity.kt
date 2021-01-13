@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.drawable.AnimationDrawable
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -33,6 +34,7 @@ import kotlinx.android.synthetic.main.activity_login.mBtnLogin
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import me.jessyan.autosize.internal.CustomAdapt
 import java.lang.String
 import java.util.*
 import java.util.concurrent.LinkedBlockingDeque
@@ -40,7 +42,7 @@ import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
 
-class MainActivity : BaseVMActivity<MainVM>() {
+class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
 
     var testFragment: TestFragment? = null
     val handler = LifecycleHandler(this)
@@ -322,5 +324,17 @@ class MainActivity : BaseVMActivity<MainVM>() {
         super.onDestroy()
         FrameInfoManager.stopMonitorFrameInfo()
         CpuInfoManager.stop()
+    }
+
+    override fun isBaseOnWidth(): Boolean {
+        return requestedOrientation == Configuration.ORIENTATION_PORTRAIT
+    }
+
+    override fun getSizeInDp(): Float {
+        if (requestedOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            return 375f
+        } else {
+            return 812f
+        }
     }
 }
