@@ -1,7 +1,7 @@
 package com.lanshifu.baselibraryktx.hook
 
 import android.util.Log
-import com.taobao.android.dexposed.XC_MethodHook
+import de.robv.android.xposed.XC_MethodHook
 
 /**
  * @author lanxiaobin

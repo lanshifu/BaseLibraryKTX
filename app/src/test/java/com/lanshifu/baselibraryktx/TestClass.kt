@@ -42,4 +42,9 @@ object TestClass {
         resultArray.addAll(quickSort(rightArray as ArrayList<Int>))
         return resultArray
     }
+
+    //最大连续子串
+    fun sameSize(){
+
+    }
 }

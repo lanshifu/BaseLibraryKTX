@@ -20,6 +20,10 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$Version.kotlin_version"
         classpath "com.didichuxing.doraemonkit:dokitx-plugin:$Version.doraemonkit"
 
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.20'
+
+        classpath   'com.mogujie.gradle:ThinRPlugin:0.0.2'
+
         classpath "com.codoon.threadtracker:threadtracker-plugin:1.1.0"
 
 //        classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
@@ -30,8 +34,8 @@ buildscript {
 allprojects {
     repositories {
         maven { url 'local_repo' }
-        google()
         jcenter()
+        google()
         maven { url "https://jitpack.io" }
         maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }

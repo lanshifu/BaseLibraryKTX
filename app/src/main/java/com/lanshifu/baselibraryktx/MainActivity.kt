@@ -28,6 +28,7 @@ import com.lanshifu.baselibraryktx.threadtest.ThreadTest
 import com.lanshifu.lib.base.BaseVMActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
+import com.lanshifu.lib.ext.logi
 import com.lanshifu.lib.ext.toast
 import com.permissionx.guolindev.PermissionX
 import kotlinx.android.synthetic.main.activity_login.mBtnLogin
@@ -199,6 +200,10 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
 
         }
 
+        btnTryBlock.setOnClickListener {
+            Thread.sleep(1000)
+        }
+
         val drawable = ivBomb?.drawable as AnimationDrawable
         drawable.isOneShot = false
         drawable.start()
@@ -327,14 +332,20 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
     }
 
     override fun isBaseOnWidth(): Boolean {
-        return requestedOrientation == Configuration.ORIENTATION_PORTRAIT
+        var isBaseOnWidth = requestedOrientation == Configuration.ORIENTATION_PORTRAIT
+        logi("isBaseOnWidth=$isBaseOnWidth")
+        return isBaseOnWidth
     }
 
     override fun getSizeInDp(): Float {
+        var getSizeInDp =
         if (requestedOrientation == Configuration.ORIENTATION_PORTRAIT) {
-            return 375f
+            375f
         } else {
-            return 812f
+            600f
         }
+        logi("getSizeInDp=$getSizeInDp")
+
+        return getSizeInDp
     }
 }

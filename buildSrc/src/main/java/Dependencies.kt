@@ -11,7 +11,7 @@ object Version {
     const val versionCode = 1
     const val versionName = "v1.0.0"
 
-    const val gradleVersion = "3.5.0"
+    const val gradleVersion = "4.1.1"
 
     const val androidSupportSdkVersion = "28.0.0"
     const val retrofit = "2.3.0"

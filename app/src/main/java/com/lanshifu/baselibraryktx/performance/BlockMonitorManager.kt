@@ -70,7 +70,7 @@ object BlockMonitorManager {
                     var threadStackEntries =
                         mStackDumpper.getThreadStackEntries(mStartTime, endTime)
 
-                    logw("检测主线程卡段，正在收集堆栈信息，耗时：${endTime - mStartTime},${threadStackEntries?.size}")
+                    logw("检测主线程卡顿，正在收集堆栈信息，耗时：${endTime - mStartTime},${threadStackEntries?.size}")
                     threadStackEntries?.forEach {
                         logw(it)
                     }

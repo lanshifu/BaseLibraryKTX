@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
 
+//apply plugin: 'thinR'
+//apply plugin: 'AndResGuard'
+
+
+//thinR {
+//    //为了不影响日常开发的编译速度，debug版本可以不用删除R
+//    skipThinRDebug = false
+//}
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
@@ -10,7 +19,7 @@ apply plugin: 'kotlin-kapt'
 
 //apply plugin: 'com.codoon.threadtracker'
 
-apply plugin: 'com.didi.dokit'
+//apply plugin: 'com.didi.dokit'
 
 //apply plugin: 'lanshifu.asm.thread'
 
@@ -29,6 +38,10 @@ android {
         ndk {
             abiFilters 'armeabi-v7a'
         }
+
+        //资源文件最少化配置
+        resConfigs "en", "zh","zh-rCN"
+//        resConfigs "nodpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"
 
         externalNativeBuild {
             cmake {
@@ -70,6 +83,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
     signingConfigs {
         debug {
             keyAlias 'lizhigame'
@@ -86,13 +103,15 @@ android {
     }
 
     //打包重命名
-    android.applicationVariants.all {
-        variant ->
-            variant.outputs.all {
-                //Basedebug_v1.0.0_2020-10-18.apk
-                output -> output.outputFileName = "Base" + buildType.name + "_" + defaultConfig.versionName + "_" + new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC")) + ".apk"
-            }
-    }
+//    android.applicationVariants.all {
+//        variant ->
+//            variant.outputs.all {
+//                //Basedebug_v1.0.0_2020-10-18.apk
+//                output -> output.outputFileName = "Base" + buildType.name + "_" + defaultConfig.versionName + "_" + new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC")) + ".apk"
+//            }
+//    }
+
+
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
@@ -118,7 +137,8 @@ dependencies {
     implementation Deps.nativecrashreport
 
     //hook 框架 https://github.com/tiann/epic/blob/master/README_cn.md
-    implementation "me.weishu:epic:0.6.0"
+    implementation "me.weishu:epic:0.11.0"
+
 
     //快手高性能线上内存监控方案
     implementation 'com.kwai.koom:java-oom:1.0.4'
@@ -135,6 +155,7 @@ dependencies {
 
     //asm 插桩需要的library
     implementation project(path: ':asm_plugin_library')
+
 
 }
 configurations.all {
