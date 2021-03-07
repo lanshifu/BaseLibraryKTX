@@ -177,6 +177,12 @@
             android:layout_height="wrap_content"
             android:text="卡顿检测"/>
 
+        <Button
+            android:id="@+id/btnAnr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ARN监控"/>
+
 
         <Button
             android:id="@+id/btnTryBlock"

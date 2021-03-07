@@ -2,7 +2,6 @@ package com.lanshifu.baselibraryktx.hook
 
 import android.os.Parcel
 import android.util.Log
-import com.lanshifu.baselibraryktx.BuildConfig
 import com.lanshifu.lib.ext.logd
 import com.lanshifu.lib.ext.logi
 import de.robv.android.xposed.DexposedBridge
@@ -17,7 +16,7 @@ object MethodHook {
     val TAG = "MethodHook"
 
     fun hookThread() {
-        if (!BuildConfig.DEBUG) {
+        if (true) {
             return
         }
 

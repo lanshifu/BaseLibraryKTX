@@ -21,6 +21,7 @@ import com.lanshifu.baselibraryktx.performance.BlockMonitorManager
 import com.lanshifu.baselibraryktx.performance.CpuInfoManager
 import com.lanshifu.baselibraryktx.performance.FrameInfoManager
 import com.lanshifu.baselibraryktx.performance.MemoryInfoManager
+import com.lanshifu.baselibraryktx.performance.anrwatchdog.ANRWatchDog
 import com.lanshifu.baselibraryktx.record.RecordActivity
 import com.lanshifu.baselibraryktx.shell.ShellTest
 import com.lanshifu.baselibraryktx.slidebar.SlideBarActivity
@@ -28,6 +29,7 @@ import com.lanshifu.baselibraryktx.threadtest.ThreadTest
 import com.lanshifu.lib.base.BaseVMActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
+import com.lanshifu.lib.ext.loge
 import com.lanshifu.lib.ext.logi
 import com.lanshifu.lib.ext.toast
 import com.permissionx.guolindev.PermissionX
@@ -43,13 +45,13 @@ import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
 
-class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
+class MainActivity : BaseVMActivity<MainVM>(), CustomAdapt {
 
     var testFragment: TestFragment? = null
     val handler = LifecycleHandler(this)
     var blockCount = 0
 
-    var excutor = ThreadPoolExecutor(2,2,60,TimeUnit.SECONDS,LinkedBlockingDeque())
+    var excutor = ThreadPoolExecutor(2, 2, 60, TimeUnit.SECONDS, LinkedBlockingDeque())
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_main
@@ -94,7 +96,7 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
 //            CrashReport.testNativeCrash()
 //            CrashReport.testJavaCrash()
 //            NativeClass.crash()
-            Thread{
+            Thread {
                 NativeClass.crash()
             }.start()
         }
@@ -124,18 +126,37 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
 
         btnPermission.setOnClickListener {
             PermissionX.init(activity)
-                .permissions(Manifest.permission.READ_CONTACTS, Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE)
+                .permissions(
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.CALL_PHONE
+                )
                 .onExplainRequestReason { scope, deniedList ->
-                    scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel")
+                    scope.showRequestReasonDialog(
+                        deniedList,
+                        "Core fundamental are based on these permissions",
+                        "OK",
+                        "Cancel"
+                    )
                 }
                 .onForwardToSettings { scope, deniedList ->
-                    scope.showForwardToSettingsDialog(deniedList, "You need to allow necessary permissions in Settings manually", "OK", "Cancel")
+                    scope.showForwardToSettingsDialog(
+                        deniedList,
+                        "You need to allow necessary permissions in Settings manually",
+                        "OK",
+                        "Cancel"
+                    )
                 }
                 .request { allGranted, grantedList, deniedList ->
                     if (allGranted) {
-                        Toast.makeText(this, "All permissions are granted", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "All permissions are granted", Toast.LENGTH_LONG)
+                            .show()
                     } else {
-                        Toast.makeText(this, "These permissions are denied: $deniedList", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this,
+                            "These permissions are denied: $deniedList",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
         }
@@ -145,7 +166,7 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
             FrameInfoManager.frameCallback = {
                 btnFps.text = "帧率：$it"
             }
-            if (FrameInfoManager.fpsOpen){
+            if (FrameInfoManager.fpsOpen) {
                 FrameInfoManager.stopMonitorFrameInfo()
                 btnFps.text = "帧率检测"
             } else {
@@ -160,7 +181,7 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
                     btnCpu.text = "cpu:$it %"
                 }
             }
-            if (CpuInfoManager.isStart){
+            if (CpuInfoManager.isStart) {
                 CpuInfoManager.stop()
                 btnCpu.text = "cpu检测"
             } else {
@@ -175,7 +196,7 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
                     btnMemory.text = "内存:$it M"
                 }
             }
-            if (MemoryInfoManager.isStart){
+            if (MemoryInfoManager.isStart) {
                 MemoryInfoManager.stop()
                 btnMemory.text = "内存检测"
             } else {
@@ -190,7 +211,7 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
                     btnBlock.text = "卡顿次数:${++blockCount} "
                 }
             }
-            if (BlockMonitorManager.isStart){
+            if (BlockMonitorManager.isStart) {
                 BlockMonitorManager.stop()
                 btnBlock.text = "卡顿检测"
             } else {
@@ -200,8 +221,20 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
 
         }
 
+        btnAnr.setOnClickListener {
+            ANRWatchDog().setReportMainThreadOnly().setANRListener {
+                loge("监控到ANR,${it.message}")
+                it.printStackTrace()
+                handler.post {
+                    btnAnr.text = "监控到ANR,详细堆栈看log"
+                }
+
+            }.start()
+            btnAnr.isEnabled = false
+            btnAnr.text = "ANR监控已启动"
+        }
         btnTryBlock.setOnClickListener {
-            Thread.sleep(1000)
+            Thread.sleep(5000)
         }
 
         val drawable = ivBomb?.drawable as AnimationDrawable
@@ -268,12 +301,12 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
     }
 
 
-    fun getMemoryInfo(){
+    fun getMemoryInfo() {
         val am = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val memoryInfo = ActivityManager.MemoryInfo()
         am.getMemoryInfo(memoryInfo)
         logd(String.valueOf("getMemoryInfo:$memoryInfo.availMem / (1024 * 1024)}MB"))
-        handler.postDelayed({getMemoryInfo()},2000)
+        handler.postDelayed({ getMemoryInfo() }, 2000)
     }
 
 
@@ -281,8 +314,8 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
     var nextStack = LinkedList<Int>()
     var currentPlaying = -1
 
-    fun stackTest(){
-        if (nextStack.isEmpty() && preStack.isEmpty()){
+    fun stackTest() {
+        if (nextStack.isEmpty() && preStack.isEmpty()) {
             nextStack.push(4)
             nextStack.push(3)
             nextStack.push(2)
@@ -290,13 +323,13 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
         }
 
         btnPre.setOnClickListener {
-            if (preStack.isEmpty()){
+            if (preStack.isEmpty()) {
                 val removeLast = nextStack.removeLast()
                 preStack.push(removeLast)
 
             }
 
-            if (currentPlaying != -1){
+            if (currentPlaying != -1) {
                 nextStack.push(currentPlaying)
             }
             currentPlaying = preStack.pop()
@@ -304,12 +337,12 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
         }
 
         btnNext.setOnClickListener {
-            if (nextStack.isEmpty()){
+            if (nextStack.isEmpty()) {
                 toast("没有下一个了")
                 nextStack.push(preStack.removeLast())
             }
 
-            if (currentPlaying != -1){
+            if (currentPlaying != -1) {
                 preStack.push(currentPlaying)
             }
 
@@ -339,11 +372,11 @@ class MainActivity : BaseVMActivity<MainVM>(),CustomAdapt {
 
     override fun getSizeInDp(): Float {
         var getSizeInDp =
-        if (requestedOrientation == Configuration.ORIENTATION_PORTRAIT) {
-            375f
-        } else {
-            600f
-        }
+            if (requestedOrientation == Configuration.ORIENTATION_PORTRAIT) {
+                375f
+            } else {
+                600f
+            }
         logi("getSizeInDp=$getSizeInDp")
 
         return getSizeInDp
