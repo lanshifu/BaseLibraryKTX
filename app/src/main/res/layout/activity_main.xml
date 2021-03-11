@@ -194,6 +194,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="字母索引"/>
+        <Button
+            android:id="@+id/btnViewPager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="滑动切换适配"/>
 
         <com.airbnb.lottie.LottieAnimationView
             android:visibility="gone"

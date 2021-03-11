@@ -46,6 +46,7 @@
         <activity android:name=".animations.SharedElementActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".slidebar.SlideBarActivity" />
+        <activity android:name=".viewpager.ViewPagerActivity" />
     </application>
 
 </manifest>

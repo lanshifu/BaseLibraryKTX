@@ -26,6 +26,7 @@ import com.lanshifu.baselibraryktx.record.RecordActivity
 import com.lanshifu.baselibraryktx.shell.ShellTest
 import com.lanshifu.baselibraryktx.slidebar.SlideBarActivity
 import com.lanshifu.baselibraryktx.threadtest.ThreadTest
+import com.lanshifu.baselibraryktx.viewpager.ViewPagerActivity
 import com.lanshifu.lib.base.BaseVMActivity
 import com.lanshifu.lib.core.lifecycle.LifecycleHandler
 import com.lanshifu.lib.ext.logd
@@ -122,6 +123,10 @@ class MainActivity : BaseVMActivity<MainVM>(), CustomAdapt {
 
         btnSlidBar.setOnClickListener {
             startActivity(Intent(this, SlideBarActivity::class.java))
+        }
+
+        btnViewPager.setOnClickListener {
+            startActivity(Intent(this, ViewPagerActivity::class.java))
         }
 
         btnPermission.setOnClickListener {
