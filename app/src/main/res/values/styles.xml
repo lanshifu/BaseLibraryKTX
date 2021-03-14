@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppSpashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@mipmap/spash</item>
+    </style>
+
 
     <style name="MaterialAnimations.Button" parent="Base.Widget.AppCompat.Button">
         <item name="android:layout_width">match_parent</item>
@@ -65,5 +69,7 @@
     <style name="MaterialAnimations.TextAppearance.Title.Inverse" parent="android:TextAppearance.Material.Title">
         <item name="android:textColor">?android:textColorPrimaryInverse</item>
     </style>
+
+
 
 </resources>

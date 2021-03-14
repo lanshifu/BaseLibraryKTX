@@ -30,7 +30,7 @@
             android:value="812" />
 
         <activity android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/AppSpashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

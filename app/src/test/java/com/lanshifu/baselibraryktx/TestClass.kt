@@ -33,7 +33,9 @@ object TestClass {
             return array
         }
 
+        //第一步，找基准值
         var middle = array[0]
+        //第二步，小的在左边，大的在右边，如果对空间复杂度有要求，则用挖坑填坑的方式
         var leftArray = array.filter { it<middle }
         var rightArray = array.filter { it>middle }
         var resultArray = ArrayList<Int>(leftArray.size + 1 + rightArray.size)
